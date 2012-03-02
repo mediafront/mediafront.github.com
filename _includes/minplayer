@@ -1,0 +1,28 @@
+{% assign MINPLAYER_PATH = '/assets/minplayer/' %}
+{% capture MINPLAYER_SCRIPTS %}
+<script type="text/javascript" src="{{MINPLAYER_PATH}}bin/minplayer.compressed.js"></script>
+{% endcapture %}
+{% capture MINPLAYER_SCRIPTS_DEBUG %}
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.compatibility.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.flags.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.async.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.plugin.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.display.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.image.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.file.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.playLoader.base.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.players.base.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.players.html5.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.players.flash.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.players.minplayer.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.players.youtube.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.players.vimeo.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}src/minplayer.controller.base.js"></script>
+{% endcapture %}
+{% capture MINPLAYER_TEMPLATE_DEFAULT %}
+<script type="text/javascript" src="{{MINPLAYER_PATH}}templates/default/js/minplayer.default.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}templates/default/js/minplayer.controller.default.js"></script>
+<script type="text/javascript" src="{{MINPLAYER_PATH}}templates/default/js/minplayer.playLoader.default.js"></script>
+<link rel="stylesheet" href="{{MINPLAYER_PATH}}templates/default/css/media_player_default.css">
+{% endcapture %}
