@@ -1,6 +1,9 @@
 ---
 layout: post
 title: "minPlayer"
+minplayer:
+  debug: true
+  template: default
 tagline: "because less IS more!"
 category:
 tags: []

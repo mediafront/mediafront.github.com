@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>{{ page.title }}</title>
+    <title>{{page.title}}</title>
     {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
     <meta name="author" content="{{ site.author.name }}">
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -13,9 +13,20 @@
     <!-- Include Google jQuery and jQuery UI -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-    {% include minplayer %}
-    {{MINPLAYER_SCRIPTS_DEBUG}}
-    {{MINPLAYER_TEMPLATE_DEFAULT}}
+
+    {% if page.minplayer %}
+      <!-- Include minPlayer scripts and templates -->
+      {% include minplayer %}
+      {% if page.minplayer.debug %}
+        {{MINPLAYER_SCRIPTS_DEBUG}}
+      {% else %}
+        {{MINPLAYER_SCRIPTS}}
+      {% endif %}
+      {% case page.minplayer.template %}
+      {% when 'default' %}
+        {{MINPLAYER_TEMPLATE_DEFAULT}}
+      {% endcase %}
+    {% endif %}
 
     <!-- Le styles -->
     <link href="{{ ASSET_PATH }}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
