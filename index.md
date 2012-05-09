@@ -29,7 +29,7 @@ tagline: Open Source Media
     We hope you enjoy MediaFront!
   </div>
   <div class="span8">
-    <h3>Introducing the Open Standard Media Player 2.0!</h3>
+    <h3>Introducing the <a href="http://github.com/mediafront/osmplayer">Open Standard Media Player 2.0</a>!</h3>
     <div id="osmplayer"></div>
   </div>
 </div>
