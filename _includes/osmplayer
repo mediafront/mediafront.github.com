@@ -1,0 +1,41 @@
+{% assign OSMPLAYER_PATH = '/assets/osmplayer/' %}
+{% capture OSMPLAYER_SCRIPTS %}
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}bin/osmplayer.compressed.js"></script>
+{% endcapture %}
+{% capture OSMPLAYER_SCRIPTS_DEBUG %}
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.compatibility.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.flags.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.async.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.plugin.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.display.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.image.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.file.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.playLoader.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.base.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.html5.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.flash.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.minplayer.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.youtube.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.vimeo.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.controller.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.default.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.youtube.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.rss.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.asx.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.xspf.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.playlist.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/iscroll/src/iscroll.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.pager.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.teaser.js"></script>
+{% endcapture %}
+{% capture OSMPLAYER_TEMPLATE_DEFAULT %}
+<link rel="stylesheet" href="{{OSMPLAYER_PATH}}templates/default/css/osmplayer_default.css">
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}templates/default/js/osmplayer.default.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}templates/default/js/osmplayer.controller.default.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}templates/default/js/osmplayer.pager.default.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}templates/default/js/osmplayer.playLoader.default.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}templates/default/js/osmplayer.playlist.default.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}templates/default/js/osmplayer.teaser.default.js"></script>
+{% endcapture %}

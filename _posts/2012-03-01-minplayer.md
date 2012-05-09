@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "minPlayer"
-minplayer:
+osmplayer:
   debug: true
   template: default
 tagline: "because less IS more!"

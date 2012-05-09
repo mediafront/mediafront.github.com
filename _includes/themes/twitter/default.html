@@ -13,18 +13,19 @@
     <!-- Include Google jQuery and jQuery UI -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/dark-hive/jquery-ui.css">
 
-    {% if page.minplayer %}
-      <!-- Include minPlayer scripts and templates -->
-      {% include minplayer %}
-      {% if page.minplayer.debug %}
-        {{MINPLAYER_SCRIPTS_DEBUG}}
+    {% if page.osmplayer %}
+      <!-- Include osmplayer scripts and templates -->
+      {% include osmplayer %}
+      {% if page.osmplayer.debug %}
+        {{OSMPLAYER_SCRIPTS_DEBUG}}
       {% else %}
-        {{MINPLAYER_SCRIPTS}}
+        {{OSMPLAYER_SCRIPTS}}
       {% endif %}
-      {% case page.minplayer.template %}
+      {% case page.osmplayer.template %}
       {% when 'default' %}
-        {{MINPLAYER_TEMPLATE_DEFAULT}}
+        {{OSMPLAYER_TEMPLATE_DEFAULT}}
       {% endcase %}
     {% endif %}
 
