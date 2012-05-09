@@ -1,9 +1,8 @@
 ---
 layout: page
-tagline: Drupal, software, and everything else that bores my wife.
+tagline: Open Source Media
 ---
 {% include JB/setup %}
-
 ## Posts
 <ul class="posts">
   {% for post in site.posts %}
