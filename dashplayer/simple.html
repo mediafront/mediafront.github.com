@@ -1,0 +1,46 @@
+---
+layout: iframe
+osmplayer:
+  debug: true
+  template: default
+---
+<p>To get this setup, create a simple.xml file within the <strong>config</strong> directory.</p>
+{% highlight html %}
+<params>
+  <flashvars>
+    <file>http://progressive.totaleclips.com.edgesuite.net/105/e105598_257.mp4</file>
+    <image>http://ia.media-imdb.com/images/M/MV5BMTM2MTIzNzk2MF5BMl5BanBnXkFtZTcwMDcwMzQxNw@@._V1._SX640_SY946_.jpg</image>
+  </flashvars>
+</params>
+{% endhighlight %}
+<p>Then, you can use this code to produce the following...</p>
+{% highlight html %}
+<object id="dashplayer" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="500px" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">
+   <param name="movie" value="/assets/dashplayer/dashPlayer.swf" />
+   <param name="FlashVars" value="config=simple" />
+   <param name="quality" value="high" />
+   <param name="wmode" value="transparent" />
+   <param name="allowfullscreen" value="true" />
+   <param name="allowScriptAccess" value="always" />
+   <embed name="dashplayer" swliveconnect="true" allowScriptAccess="always" src="/assets/dashplayer/dashPlayer.swf"
+      width="100%"
+      height="500px"
+      border="0"
+      type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"
+      wmode="transparent" allowfullscreen="true" quality="high" flashvars="config=simple" />
+</object>
+{% endhighlight %}
+<object id="dashplayer" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="500px" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">
+   <param name="movie" value="/assets/dashplayer/dashPlayer.swf" />
+   <param name="FlashVars" value="config=simple" />
+   <param name="quality" value="high" />
+   <param name="wmode" value="transparent" />
+   <param name="allowfullscreen" value="true" />
+   <param name="allowScriptAccess" value="always" />
+   <embed name="dashplayer" swliveconnect="true" allowScriptAccess="always" src="/assets/dashplayer/dashPlayer.swf"
+      width="100%"
+      height="500px"
+      border="0"
+      type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"
+      wmode="transparent" allowfullscreen="true" quality="high" flashvars="config=simple" />
+</object>

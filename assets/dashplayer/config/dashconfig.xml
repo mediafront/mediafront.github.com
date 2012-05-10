@@ -1,0 +1,10 @@
+<params>
+	<gateway><!-- Enter your Drupal Gateway URL here --></gateway>
+	<apiKey><!-- Enter your Drupal Services API Key here --></apiKey>
+	<baseURL><!-- Enter the Base URL for your site here --></baseURL>
+	<flashvars>
+          <file>http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4</file>
+          <preview>http://peach.blender.org/wp-content/uploads/bird1.jpg</preview>
+	<!-- You can specify any flashvars here by providing the name of the flashvar as the tag, and the value in between those tags. -->
+	</flashvars>
+</params>
