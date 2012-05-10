@@ -1,0 +1,89 @@
+---
+layout: page
+title: "DrupalCon BOF Session Videos"
+osmplayer:
+  debug: true
+  template: default
+tagline: "These are the presentations that Travis Tidwell gave at DrupalCon San Francisco 2010."
+category:
+tags: []
+alias: [
+  /documentation/drupalmediafront-osm-cms-integration/mediafrontpresentation,
+  /drupalconsf
+]
+---
+<div class="alert">
+  <strong>Warning!</strong> These videos are dated, and some things have changed within the MediaFront module since these were recorded. We recommend that you pair these videos with the MediaFront Intro video found in our <a href="/osmplayer/presentations.html">presentations</a> section.
+</div>
+<script type="text/javascript">
+  $(function() {
+    $("#osmplayer").osmplayer({
+      playlist: '/osmplayer/drupalconsf.xml',
+      logo: '/assets/osmplayer/logo.png',
+      height: '500px'
+    });
+  });
+</script>
+<div id="osmplayer"></div>
+<br/>
+<div class="row">
+  <div class="span12">
+    <h3>This player is build using the following code.</h3>
+{% highlight html %}
+<script type="text/javascript">
+  $(function() {
+    $("#osmplayer").osmplayer({
+      playlist: '/osmplayer/drupalconsf.xml',
+      logo: '/assets/osmplayer/logo.png',
+      height: '500px'
+    });
+  });
+</script>
+<div id="osmplayer"></div>
+{% endhighlight %}
+  </div>
+</div>
+<div class="row">
+  <div class="span12">
+    <h3>Using the following playlist from Vimeo.</h3>
+{% highlight xml %}
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist version="1" xmlns="http://xspf.org/ns/0/">
+   <trackList>
+      <track>
+         <title>1.) Introduction</title>
+         <location>https://vimeo.com/41917303</location>
+      </track>
+      <track>
+         <title>2.) Overview of the MediaFront Module</title>
+         <location>https://vimeo.com/41917372</location>
+      </track>
+      <track>
+         <title>3.) The Administrative Interface</title>
+         <location>https://vimeo.com/41917373</location>
+      </track>
+      <track>
+         <title>4.) Displaying the Preset</title>
+         <location>https://vimeo.com/41917374</location>
+      </track>
+      <track>
+         <title>5.) Multiple Media Formats</title>
+         <location>https://vimeo.com/41917376</location>
+      </track>
+      <track>
+         <title>6.) CCK Integration</title>
+         <location>https://vimeo.com/41917378</location>
+      </track>
+      <track>
+         <title>7.) Player to Player</title>
+         <location>https://vimeo.com/41918543</location>
+      </track>
+      <track>
+         <title>8.) Questions</title>
+         <location>https://vimeo.com/41918544</location>
+      </track>
+   </trackList>
+</playlist>
+{% endhighlight %}
+  </div>
+</div>
