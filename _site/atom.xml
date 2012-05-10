@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>mediafront.org</title>
+ <link href="http://mediafront.github.com/atom.xml" rel="self"/>
+ <link href="http://mediafront.github.com"/>
+ <updated>2012-05-10T11:31:59-05:00</updated>
+ <id>http://mediafront.github.com</id>
+ <author>
+   <name>Travis Tidwell</name>
+   <email>travist349@gmail.com</email>
+ </author>
+
+ 
+ 
+</feed>

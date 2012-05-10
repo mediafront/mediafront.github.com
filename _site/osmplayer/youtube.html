@@ -1,0 +1,23 @@
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+  <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#youtube&quot;</span><span class="p">).</span><span class="nx">osmplayer</span><span class="p">({</span>
+      <span class="nx">width</span><span class="o">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+      <span class="nx">height</span><span class="o">:</span> <span class="s1">&#39;600px&#39;</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;video</span> <span class="na">id=</span><span class="s">&quot;youtube&quot;</span> <span class="na">src=</span><span class="s">&quot;http://www.youtube.com/watch?v=dTAAsCNK7RA&quot;</span><span class="nt">&gt;&lt;/video&gt;</span>
+</code></pre>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $("#youtube").osmplayer({
+      logo: '/assets/osmplayer/logo.png',
+      width: '100%',
+      height: '600px'
+    });
+  });
+</script>
+<video id="youtube" src="http://www.youtube.com/watch?v=dTAAsCNK7RA"></video>
