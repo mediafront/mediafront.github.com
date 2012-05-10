@@ -1,0 +1,27 @@
+---
+layout: iframe
+osmplayer:
+  debug: true
+  template: default
+---
+{% highlight html %}
+<script type="text/javascript">
+  $(function() {
+    $("#osmplayer").osmplayer({
+      playlist: 'playlist.xml',
+      height: '500px'
+    });
+  });
+</script>
+<div id="osmplayer"></div>
+{% endhighlight %}
+<script type="text/javascript">
+  $(function() {
+    $("#osmplayer").osmplayer({
+      playlist: '/assets/osmplayer/playlist.xml',
+      logo: '/assets/osmplayer/logo.png',
+      height: '500px'
+    });
+  });
+</script>
+<div id="osmplayer"></div>

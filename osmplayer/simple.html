@@ -1,0 +1,27 @@
+---
+layout: iframe
+osmplayer:
+  debug: true
+  template: default
+---
+{% highlight html %}
+<script type="text/javascript">
+  $(function() {
+    $("video").osmplayer({
+      width: '100%',
+      height: '600px'
+    });
+  });
+</script>
+<video src="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4" poster="http://peach.blender.org/wp-content/uploads/bird1.jpg"></video>
+{% endhighlight %}
+<script type="text/javascript">
+  $(function() {
+    $("video").osmplayer({
+      width: '100%',
+      height: '600px',
+      logo: '/assets/osmplayer/logo.png'
+    });
+  });
+</script>
+<video src="http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4" poster="http://peach.blender.org/wp-content/uploads/bird1.jpg"></video>

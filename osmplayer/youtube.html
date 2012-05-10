@@ -1,0 +1,29 @@
+---
+layout: iframe
+osmplayer:
+  debug: true
+  template: default
+---
+{% highlight html %}
+<script type="text/javascript">
+  $(function() {
+    $("#youtube").osmplayer({
+      showPlaylist: false,
+      width: '100%',
+      height: '600px'
+    });
+  });
+</script>
+<video id="youtube" src="http://www.youtube.com/watch?v=dTAAsCNK7RA"></video>
+{% endhighlight %}
+<script type="text/javascript">
+  $(function() {
+    $("#youtube").osmplayer({
+      showPlaylist: false,
+      logo: '/assets/osmplayer/logo.png',
+      width: '100%',
+      height: '600px'
+    });
+  });
+</script>
+<video id="youtube" src="http://www.youtube.com/watch?v=dTAAsCNK7RA"></video>
