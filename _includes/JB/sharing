@@ -1,5 +1,4 @@
-{% if site.JB.sharing.provider and page.JB.sharing != false %}
-
+{% if site.JB.sharing.provider and site.JB.sharing.addthis.pubid != '' and page.JB.sharing != false %}
 {% case site.JB.sharing.provider %}
 {% when "addthis" %}
   {% include JB/sharing-providers/addthis %}

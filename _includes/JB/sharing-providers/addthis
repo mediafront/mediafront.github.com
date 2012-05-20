@@ -13,5 +13,4 @@
   <a class="addthis_counter addthis_pill_style"></a>
 {% endif %}
 </div>
-<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid={{site.JB.sharing.addthis.pubid}}"></script>
 <!-- AddThis Button END -->
