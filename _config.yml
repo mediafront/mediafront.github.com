@@ -112,7 +112,7 @@ JB :
   sharing :
     provider : addthis
     addthis:
-      pubid: ''
+      pubid: 'ra-4fb91ed131b05e9c'
       enable_tweet_button: true
       enable_fblike_button: true
       enable_gplus_button: true
