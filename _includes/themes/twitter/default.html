@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="http://schema.org/Article">
   <head>
     <meta charset="utf-8">
     <title>{{page.title}}</title>
     <meta name=”title” content="{{page.title}}" />
+    <meta itemprop="name" content="{{page.title}}" />
     {% if page.description %}
       <meta name="description" content="{{ page.description }}">
+      <meta itemprop="description" content="{{ page.description }}" />
     {% else %}
       <meta name="description" content="{{ page.tagline }}">
+      <meta itemprop="description" content="{{ page.tagline }}" />
     {% endif %}
     {% if page.image %}
       <link rel=”image_src” href=”{{ page.image }}” />
+      <meta itemprop="image" content="{{ page.image }}" />
     {% endif %}
     <meta name="author" content="{{ site.author.name }}">
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
