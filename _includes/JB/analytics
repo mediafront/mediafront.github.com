@@ -1,10 +1,9 @@
-{% if site.JB.sharing.provider and site.JB.sharing.addthis.pubid != '' and page.JB.sharing != false %}
+{% if site.safe and site.JB.sharing.provider and site.JB.sharing.addthis.pubid != '' and page.JB.sharing != false %}
 {% case site.JB.sharing.provider %}
 {% when "addthis" %}
   {% include JB/analytics-providers/addthis %}
 {% endcase %}
 {% endif %}
-
 {% if site.safe and site.JB.analytics.provider and page.JB.analytics != false %}
 {% case site.JB.analytics.provider %}
 {% when "google" %}
