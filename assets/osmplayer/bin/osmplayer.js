@@ -1707,7 +1707,7 @@ minplayer.plugin.prototype.unbind = function(type, fn) {
     for (i in queuetype) {
       if (queuetype.hasOwnProperty(i)) {
         if (queuetype[i].callback === fn) {
-          queue = this.queue[type].splice(1, 1);
+          queue = this.queue[type].splice(i, 1);
           delete queue;
         }
       }
@@ -2068,6 +2068,36 @@ minplayer.display.prototype.onFocus = function(focus) {
   this.hasFocus = this.focus = focus;
 };
 
+/** Keep track of all the show hide elements. */
+minplayer.showHideElements = [];
+
+/**
+ * Show all the show hide elements.
+ */
+minplayer.showAll = function() {
+  var i = minplayer.showHideElements.length;
+  var obj = null;
+  while (i--) {
+    obj = minplayer.showHideElements[i];
+    minplayer.showThenHide(obj.element, obj.timeout, obj.callback);
+  }
+};
+
+/**
+ * Stops the whole show then hide from happening.
+ *
+ * @param {object} element The element you want the showThenHide to stop.
+ */
+minplayer.stopShowThenHide = function(element) {
+  element = jQuery(element);
+  if (element.showTimer) {
+    clearTimeout(element.showTimer);
+  }
+  element.stopShowThenHide = true;
+  element.shown = true;
+  element.show();
+};
+
 /**
  * Called if you would like for your display item to show then hide.
  *
@@ -2088,11 +2118,27 @@ minplayer.showThenHide = function(element, timeout, callback) {
   // If this has not yet been configured.
   if (!element.showTimer) {
     element.shown = true;
-    minplayer.click(document, function() {
-      minplayer.showThenHide(element, timeout, callback);
+    element.stopShowThenHide = false;
+
+    // Add this to our showHideElements.
+    minplayer.showHideElements.push({
+      element: element,
+      timeout: timeout,
+      callback: callback
     });
+
+    // Bind to a click event.
+    minplayer.click(document, function() {
+      if (!element.stopShowThenHide) {
+        minplayer.showThenHide(element, timeout, callback);
+      }
+    });
+
+    // Bind to the mousemove event.
     jQuery(document).bind('mousemove', function() {
-      minplayer.showThenHide(element, timeout, callback);
+      if (!element.stopShowThenHide) {
+        minplayer.showThenHide(element, timeout, callback);
+      }
     });
   }
 
@@ -2440,6 +2486,7 @@ minplayer.prototype.addEvents = function() {
         // If an error occurs within the html5 media player, then try
         // to fall back to the flash player.
         if (player.currentPlayer == 'html5') {
+          minplayer.player = 'minplayer';
           player.options.file.player = 'minplayer';
           player.loadPlayer();
         }
@@ -2468,7 +2515,15 @@ minplayer.prototype.error = function(error) {
     // Set the error text.
     this.elements.error.text(error);
     if (error) {
+      // Show the error message.
       this.elements.error.show();
+
+      // Only show this error for a time interval.
+      setTimeout((function(player) {
+        return function() {
+          player.elements.error.hide('slow');
+        };
+      })(this), 5000);
     }
     else {
       this.elements.error.hide();
@@ -2845,13 +2900,16 @@ minplayer.file = function(file) {
   }
 
   // Get the player.
-  this.player = file.player || this.getBestPlayer();
+  this.player = minplayer.player || file.player || this.getBestPlayer();
   this.priority = file.priority || this.getPriority();
   this.id = file.id || this.getId();
   if (!this.path) {
     this.path = this.id;
   }
 };
+
+/** Used to force the player for all media. */
+minplayer.player = '';
 
 /**
  * Returns the best player for the job.
@@ -3045,6 +3103,7 @@ minplayer.playLoader.prototype.construct = function() {
       if (this.elements.bigPlay) {
         minplayer.click(this.elements.bigPlay.unbind(), function(event) {
           event.preventDefault();
+          minplayer.showAll();
           jQuery(this).hide();
           media.play();
         });
@@ -3270,8 +3329,12 @@ minplayer.players.base.prototype.construct = function() {
   // Toggle playing if they click.
   minplayer.click(this.display, (function(player) {
     return function() {
+      minplayer.showAll();
       if (player.playing) {
         player.pause();
+      }
+      else {
+        player.play();
       }
     };
   })(this));
@@ -3887,90 +3950,91 @@ minplayer.players.html5.prototype.construct = function() {
   minplayer.players.base.prototype.construct.call(this);
 
   // Add the player events.
-  this.addEvents();
+  this.addPlayerEvents();
+};
+
+/**
+ * Adds a new player event.
+ *
+ * @param {string} type The type of event being fired.
+ * @param {function} callback Called when the event is fired.
+ */
+minplayer.players.html5.prototype.addPlayerEvent = function(type, callback) {
+  if (this.player) {
+
+    // Add an event listener for this event type.
+    this.player.addEventListener(type, (function(player) {
+
+      // Get the function name.
+      var func = type + 'Event';
+
+      // If the callback already exists, then remove it from the player.
+      if (player[func]) {
+        player.player.removeEventListener(type, player[func], false);
+      }
+
+      // Create a new callback.
+      player[func] = function(event) {
+        callback.call(player, event);
+      };
+
+      // Return the callback.
+      return player[func];
+
+    })(this), false);
+  }
 };
 
 /**
  * Add events.
  * @return {boolean} If this action was performed.
  */
-minplayer.players.html5.prototype.addEvents = function() {
+minplayer.players.html5.prototype.addPlayerEvents = function() {
 
   // Check if the player exists.
   if (this.player) {
 
-    // Unbind all current events on this player.
-    jQuery(this.player).unbind();
-
-    // Add the events to this player.
-    this.player.addEventListener('abort', (function(player) {
-      return function() {
-        player.trigger('abort');
-      };
-    })(this), false);
-    this.player.addEventListener('loadstart', (function(player) {
-      return function() {
-        player.onReady();
-      };
-    })(this), false);
-    this.player.addEventListener('loadeddata', (function(player) {
-      return function() {
-        player.onLoaded();
-      };
-    })(this), false);
-    this.player.addEventListener('loadedmetadata', (function(player) {
-      return function() {
-        player.onLoaded();
-      };
-    })(this), false);
-    this.player.addEventListener('canplaythrough', (function(player) {
-      return function() {
-        player.onLoaded();
-      };
-    })(this), false);
-    this.player.addEventListener('ended', (function(player) {
-      return function() {
-        player.onComplete();
-      };
-    })(this), false);
-    this.player.addEventListener('pause', (function(player) {
-      return function() {
-        player.onPaused();
-      };
-    })(this), false);
-    this.player.addEventListener('play', (function(player) {
-      return function() {
-        player.onPlaying();
-      };
-    })(this), false);
-    this.player.addEventListener('playing', (function(player) {
-      return function() {
-        player.onPlaying();
-      };
-    })(this), false);
-    this.player.addEventListener('error', (function(player) {
-      return function() {
-        player.trigger('error', 'An error occured - ' + this.error.code);
-      };
-    })(this), false);
-    this.player.addEventListener('waiting', (function(player) {
-      return function() {
-        player.onWaiting();
-      };
-    })(this), false);
-    this.player.addEventListener('durationchange', (function(player) {
-      return function() {
-        player.duration.set(this.duration);
-        player.trigger('durationchange', {duration: this.duration});
-      };
-    })(this), false);
-    this.player.addEventListener('progress', (function(player) {
-      return function(event) {
-        player.bytesTotal.set(event.total);
-        player.bytesLoaded.set(event.loaded);
-      };
-    })(this), false);
-
+    this.addPlayerEvent('abort', function() {
+      this.trigger('abort');
+    });
+    this.addPlayerEvent('loadstart', function() {
+      this.onReady();
+    });
+    this.addPlayerEvent('loadeddata', function() {
+      this.onLoaded();
+    });
+    this.addPlayerEvent('loadedmetadata', function() {
+      this.onLoaded();
+    });
+    this.addPlayerEvent('canplaythrough', function() {
+      this.onLoaded();
+    });
+    this.addPlayerEvent('ended', function() {
+      this.onComplete();
+    });
+    this.addPlayerEvent('pause', function() {
+      this.onPaused();
+    });
+    this.addPlayerEvent('play', function() {
+      this.onPlaying();
+    });
+    this.addPlayerEvent('playing', function() {
+      this.onPlaying();
+    });
+    this.addPlayerEvent('error', function() {
+      this.trigger('error', 'An error occured - ' + this.player.error.code);
+    });
+    this.addPlayerEvent('waiting', function() {
+      this.onWaiting();
+    });
+    this.addPlayerEvent('durationchange', function() {
+      this.duration.set(this.player.duration);
+      this.trigger('durationchange', {duration: this.player.duration});
+    });
+    this.addPlayerEvent('progress', function(event) {
+      this.bytesTotal.set(event.total);
+      this.bytesLoaded.set(event.loaded);
+    });
     return true;
   }
 
@@ -4065,7 +4129,7 @@ minplayer.players.html5.prototype.load = function(file) {
       this.player = this.getPlayer();
 
       // Add the events again.
-      this.addEvents();
+      this.addPlayerEvents();
 
       // Change the source...
       var code = '<source src="' + file.path + '"></source>';
@@ -4275,46 +4339,62 @@ minplayer.players.flash.canPlay = function(file) {
  * @param {object} params The params used to populate the Flash code.
  * @return {object} A Flash DOM element.
  */
-minplayer.players.flash.getFlash = function(params) {
+minplayer.players.flash.prototype.getFlash = function(params) {
   // Get the protocol.
   var protocol = window.location.protocol;
   if (protocol.charAt(protocol.length - 1) == ':') {
     protocol = protocol.substring(0, protocol.length - 1);
   }
 
-  // Convert the flashvars object to a string...
-  var flashVars = jQuery.param(params.flashvars);
+  // Insert the swfobject javascript.
+  var tag = document.createElement('script');
+  var src = protocol;
+  src += '://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js';
+  tag.src = src;
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-  // Set the codebase.
-  var codebase = protocol + '://fpdownload.macromedia.com';
-  codebase += '/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0';
+  // Create the swfobject.
+  setTimeout((function(player) {
+    return function tryAgain() {
+      if (swfobject) {
+        swfobject.embedSWF(
+          params.swf,
+          params.id,
+          params.width,
+          params.height,
+          '9.0.0',
+          false,
+          params.flashvars,
+          {
+            allowscriptaccess: 'always',
+            allowfullscreen: 'true',
+            wmode: params.wmode,
+            quality: 'high'
+          },
+          {
+            id: params.id,
+            name: params.id,
+            playerType: 'flash'
+          },
+          function(e) {
+            player.player = e.ref;
+          }
+        );
+      }
+      else {
 
-  // Get the HTML flash object string.
-  var flash = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" ';
-  flash += 'codebase="' + codebase + '" ';
-  flash += 'playerType="flash" ';
-  flash += 'width="' + params.width + '" ';
-  flash += 'height="' + params.height + '" ';
-  flash += 'id="' + params.id + '" ';
-  flash += 'name="' + params.id + '"> ';
-  flash += '<param name="allowScriptAccess" value="always"></param>';
-  flash += '<param name="allowfullscreen" value="true" />';
-  flash += '<param name="movie" value="' + params.swf + '"></param>';
-  flash += '<param name="wmode" value="' + params.wmode + '"></param>';
-  flash += '<param name="quality" value="high"></param>';
-  flash += '<param name="FlashVars" value="' + flashVars + '"></param>';
-  flash += '<embed src="' + params.swf + '" ';
-  flash += 'quality="high" ';
-  flash += 'width="' + params.width + '" height="' + params.height + '" ';
-  flash += 'id="' + params.id + '" name="' + params.id + '" ';
-  flash += 'swLiveConnect="true" allowScriptAccess="always" ';
-  flash += 'wmode="' + params.wmode + '"';
-  flash += 'allowfullscreen="true" type="application/x-shockwave-flash" ';
-  flash += 'FlashVars="' + flashVars + '" ';
-  flash += 'pluginspage="' + protocol;
-  flash += '://www.macromedia.com/go/getflashplayer" />';
-  flash += '</object>';
-  return flash;
+        // Try again after 200 ms.
+        setTimeout(tryAgain, 200);
+      }
+    };
+  })(this), 200);
+
+  // Return the ultimate fallback...
+  var output = '<div id="' + params.id + '">';
+  output += 'You must download Flash to view this media';
+  output += '</div>';
+  return output;
 };
 
 /**
@@ -4323,16 +4403,6 @@ minplayer.players.flash.getFlash = function(params) {
  */
 minplayer.players.flash.prototype.playerFound = function() {
   return (this.display.find('object[playerType="flash"]').length > 0);
-};
-
-/**
- * @see minplayer.players.base#getPlayer
- * @return {object} The media player object.
- */
-minplayer.players.flash.prototype.getPlayer = function() {
-  // IE needs the object, everyone else just needs embed.
-  var object = jQuery.browser.msie ? 'object' : 'embed';
-  return jQuery(object, this.display).eq(0)[0];
 };
 /** The minplayer namespace. */
 var minplayer = minplayer || {};
@@ -4439,7 +4509,7 @@ minplayer.players.minplayer.prototype.create = function() {
   };
 
   // Return a flash media player object.
-  return minplayer.players.flash.getFlash({
+  return this.getFlash({
     swf: this.options.swfplayer,
     id: this.options.id + '_player',
     width: '100%',
@@ -6201,78 +6271,17 @@ osmplayer.playlist.prototype.construct = function() {
 
   // Create the scroll bar.
   this.scroll = null;
-  if (this.elements.scroll && (this.elements.scroll.length > 0)) {
 
-    // Make this component orientation agnostic.
-    var orient = {};
-    orient.pos = (this.options.vertical) ? 'y' : 'x';
-    orient.pagePos = (this.options.vertical ? 'pageY' : 'pageX');
-    orient.offset = (this.options.vertical ? 'top' : 'left');
-    orient.wrapperSize = (this.options.vertical ? 'wrapperH' : 'wrapperW');
-    orient.minScroll = (this.options.vertical ? 'minScrollY' : 'minScrollX');
-    orient.maxScroll = (this.options.vertical ? 'maxScrollY' : 'maxScrollX');
-
-    // Setup the iScroll component.
-    this.scroll = new iScroll(this.elements.scroll.eq(0)[0], {
-      hScroll: !this.options.vertical,
-      hScrollbar: !this.options.vertical,
-      vScroll: this.options.vertical,
-      vScrollbar: this.options.vertical,
-      hideScrollbar: true
-    });
-
-    // Use autoScroll for non-touch devices.
-    if ((this.options.scrollMode == 'auto') && !minplayer.hasTouch) {
-
-      // Bind to the mouse events for autoscrolling.
-      this.elements.list.bind('mousemove', (function(playlist) {
-        return function(event) {
-          event.preventDefault();
-          playlist.mousePos = event[orient.pagePos];
-          playlist.mousePos -= playlist.display.offset()[orient.offset];
-        };
-      })(this)).bind('mouseenter', (function(playlist) {
-        return function(event) {
-          event.preventDefault();
-          playlist.scrolling = true;
-          var setScroll = function() {
-            if (playlist.scrolling) {
-              var scrollSize = playlist.scroll[orient.wrapperSize];
-              var scrollMid = (scrollSize / 2);
-              var delta = playlist.mousePos - scrollMid;
-              if (Math.abs(delta) > playlist.options.hysteresis) {
-                var hyst = playlist.options.hysteresis;
-                hyst *= (delta > 0) ? -1 : 0;
-                delta = (playlist.options.scrollSpeed * (delta + hyst));
-                delta /= scrollMid;
-                var pos = playlist.scroll[orient.pos] - delta;
-                var min = playlist.scroll[orient.minScroll] || 0;
-                var max = playlist.scroll[orient.maxScroll];
-                if (pos >= min) {
-                  playlist.scrollTo(min);
-                }
-                else if (pos <= max) {
-                  playlist.scrollTo(max);
-                }
-                else {
-                  playlist.scrollTo(delta, true);
-                }
-              }
-
-              // Set timeout to try again.
-              setTimeout(setScroll, 30);
-            }
-          };
-          setScroll();
-        };
-      })(this)).bind('mouseleave', (function(playlist) {
-        return function(event) {
-          event.preventDefault();
-          playlist.scrolling = false;
-        };
-      })(this));
-    }
-  }
+  // Create our orientation variable.
+  this.orient = {
+    pos: this.options.vertical ? 'y' : 'x',
+    pagePos: this.options.vertical ? 'pageY' : 'pageX',
+    offset: this.options.vertical ? 'top' : 'left',
+    wrapperSize: this.options.vertical ? 'wrapperH' : 'wrapperW',
+    minScroll: this.options.vertical ? 'minScrollY' : 'minScrollX',
+    maxScroll: this.options.vertical ? 'maxScrollY' : 'maxScrollX',
+    size: this.options.vertical ? 'height' : 'width'
+  };
 
   // Create the pager.
   this.pager = this.create('pager', 'osmplayer');
@@ -6287,20 +6296,21 @@ osmplayer.playlist.prototype.construct = function() {
     };
   })(this));
 
-  // Get the media.
-  if (this.options.autoNext) {
-    this.get('media', function(media) {
-      media.bind('ended', (function(playlist) {
-        return function(event) {
-          media.options.autoplay = true;
-          playlist.next();
-        };
-      })(this));
-    });
-  }
-
   // Load the "next" item.
-  this.next();
+  if (this.next()) {
+
+    // Get the media.
+    if (this.options.autoNext) {
+      this.get('media', function(media) {
+        media.bind('ended', (function(playlist) {
+          return function(event) {
+            media.options.autoplay = true;
+            playlist.next();
+          };
+        })(this));
+      });
+    }
+  }
 
   // Say that we are ready.
   this.ready();
@@ -6328,9 +6338,89 @@ osmplayer.playlist.prototype.scrollTo = function(pos, relative) {
 /**
  * Refresh the scrollbar.
  */
-osmplayer.playlist.prototype.refresh = function() {
-  // Refresh the sizes.
-  if (this.scroll) {
+osmplayer.playlist.prototype.refreshScroll = function() {
+
+  // Make sure that our window has the addEventListener to keep IE happy.
+  if (!window.addEventListener) {
+    setTimeout((function(playlist) {
+      return function() {
+        playlist.refreshScroll.call(playlist);
+      }
+    })(this), 200);
+    return;
+  }
+
+  // Check the size of the playlist.
+  var list = this.elements.list;
+  var scroll = this.elements.scroll;
+
+  // Check to see if we should add a scroll bar functionality.
+  if ((!this.scroll) &&
+      (list.length > 0) &&
+      (scroll.length > 0) &&
+      (list[this.orient.size]() > scroll[this.orient.size]())) {
+
+    // Setup the iScroll component.
+    this.scroll = new iScroll(this.elements.scroll.eq(0)[0], {
+      hScroll: !this.options.vertical,
+      hScrollbar: !this.options.vertical,
+      vScroll: this.options.vertical,
+      vScrollbar: this.options.vertical,
+      hideScrollbar: true
+    });
+
+    // Use autoScroll for non-touch devices.
+    if ((this.options.scrollMode == 'auto') && !minplayer.hasTouch) {
+
+      // Bind to the mouse events for autoscrolling.
+      this.elements.list.bind('mousemove', (function(playlist) {
+        return function(event) {
+          event.preventDefault();
+          var offset = playlist.display.offset()[playlist.orient.offset];
+          playlist.mousePos = event[playlist.orient.pagePos];
+          playlist.mousePos -= offset;
+        };
+      })(this)).bind('mouseenter', (function(playlist) {
+        return function(event) {
+          event.preventDefault();
+          playlist.scrolling = true;
+          var setScroll = function() {
+            if (playlist.scrolling) {
+              var scrollSize = playlist.scroll[playlist.orient.wrapperSize];
+              var scrollMid = (scrollSize / 2);
+              var delta = playlist.mousePos - scrollMid;
+              if (Math.abs(delta) > playlist.options.hysteresis) {
+                var hyst = playlist.options.hysteresis;
+                hyst *= (delta > 0) ? -1 : 0;
+                delta = (playlist.options.scrollSpeed * (delta + hyst));
+                delta /= scrollMid;
+                var pos = playlist.scroll[playlist.orient.pos] - delta;
+                var min = playlist.scroll[playlist.orient.minScroll] || 0;
+                var max = playlist.scroll[playlist.orient.maxScroll];
+                if (pos >= min) {
+                  playlist.scrollTo(min);
+                }
+                else if (pos <= max) {
+                  playlist.scrollTo(max);
+                }
+                else {
+                  playlist.scrollTo(delta, true);
+                }
+              }
+
+              // Set timeout to try again.
+              setTimeout(setScroll, 30);
+            }
+          };
+          setScroll();
+        };
+      })(this)).bind('mouseleave', (function(playlist) {
+        return function(event) {
+          event.preventDefault();
+          playlist.scrolling = false;
+        };
+      })(this));
+    }
 
     // Need to force the width of the list.
     if (!this.options.vertical) {
@@ -6343,6 +6433,15 @@ osmplayer.playlist.prototype.refresh = function() {
 
     this.scroll.refresh();
     this.scroll.scrollTo(0, 0, 200);
+  }
+  else if (this.scroll) {
+
+    // Disable the scroll bar.
+    this.scroll.disable();
+    this.elements.list
+      .unbind('mousemove')
+      .unbind('mouseenter')
+      .unbind('mouseleave');
   }
 };
 
@@ -6408,7 +6507,7 @@ osmplayer.playlist.prototype.set = function(playlist, loadIndex) {
     }
 
     // Refresh the sizes.
-    this.refresh();
+    this.refreshScroll();
 
     // Trigger that the playlist has loaded.
     this.trigger('playlistLoad', playlist);
@@ -6437,6 +6536,8 @@ osmplayer.playlist.prototype.setQueue = function() {
 
 /**
  * Loads the next item.
+ *
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.next = function() {
   var item = 0, page = this.page;
@@ -6449,17 +6550,17 @@ osmplayer.playlist.prototype.next = function() {
       item = Math.floor(Math.random() * this.totalItems);
       page = Math.floor(item / this.options.pageLimit);
       item = item % this.options.pageLimit;
-      this.load(page, item);
+      return this.load(page, item);
     }
     else {
 
       // Otherwise, increment the current item by one.
       item = (this.currentItem + 1);
       if (item >= this.nodes.length) {
-        this.load(page + 1, 0);
+        return this.load(page + 1, 0);
       }
       else {
-        this.loadItem(item);
+        return this.loadItem(item);
       }
     }
   }
@@ -6468,12 +6569,14 @@ osmplayer.playlist.prototype.next = function() {
     // Load the next item in the playqueue.
     this.playqueuepos = this.playqueuepos + 1;
     var currentQueue = this.playqueue[this.playqueuepos];
-    this.load(currentQueue.page, currentQueue.item);
+    return this.load(currentQueue.page, currentQueue.item);
   }
 };
 
 /**
  * Loads the previous item.
+ *
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.prev = function() {
 
@@ -6482,14 +6585,16 @@ osmplayer.playlist.prototype.prev = function() {
   this.playqueuepos = (this.playqueuepos < 0) ? 0 : this.playqueuepos;
   var currentQueue = this.playqueue[this.playqueuepos];
   if (currentQueue) {
-    this.load(currentQueue.page, currentQueue.item);
+    return this.load(currentQueue.page, currentQueue.item);
   }
+  return false;
 };
 
 /**
  * Loads a playlist node.
  *
  * @param {number} index The index of the item you would like to load.
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.loadItem = function(index) {
   if (index < this.nodes.length) {
@@ -6504,25 +6609,30 @@ osmplayer.playlist.prototype.loadItem = function(index) {
     teaser = this.nodes[index];
     teaser.select(true);
     this.trigger('nodeLoad', teaser.node);
+    return true;
   }
+
+  return false;
 };
 
 /**
  * Loads the next page.
  *
  * @param {integer} loadIndex The index of the item to load.
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.nextPage = function(loadIndex) {
-  this.load(this.page + 1, loadIndex);
+  return this.load(this.page + 1, loadIndex);
 };
 
 /**
  * Loads the previous page.
  *
  * @param {integer} loadIndex The index of the item to load.
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.prevPage = function(loadIndex) {
-  this.load(this.page - 1, loadIndex);
+  return this.load(this.page - 1, loadIndex);
 };
 
 /**
@@ -6530,12 +6640,13 @@ osmplayer.playlist.prototype.prevPage = function(loadIndex) {
  *
  * @param {integer} page The page to load.
  * @param {integer} loadIndex The index of the item to load.
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.load = function(page, loadIndex) {
 
   // If the playlist and pages are the same, then no need to load.
   if ((this.playlist == this.options.playlist) && (page == this.page)) {
-    this.loadItem(loadIndex);
+    return this.loadItem(loadIndex);
   }
 
   // Set the new playlist.
@@ -6543,7 +6654,7 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
 
   // Return if there aren't any playlists to play.
   if (!this.playlist) {
-    return;
+    return false;
   }
 
   // Determine if we need to loop.
@@ -6554,7 +6665,7 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
       loadIndex = 0;
     }
     else {
-      return;
+      return false;
     }
   }
 
@@ -6587,7 +6698,7 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
     if (this.playlist.endpoint) {
       this.playlist = this.options.playlist = this.playlist.endpoint;
     }
-    return;
+    return true;
   }
 
   // Get the highest priority parser.
@@ -6639,6 +6750,9 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
 
   // Perform an ajax callback.
   jQuery.ajax(request);
+
+  // Return that we did something.
+  return true;
 };
 /** The osmplayer namespace. */
 var osmplayer = osmplayer || {};

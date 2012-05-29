@@ -65,78 +65,17 @@ osmplayer.playlist.prototype.construct = function() {
 
   // Create the scroll bar.
   this.scroll = null;
-  if (this.elements.scroll && (this.elements.scroll.length > 0)) {
 
-    // Make this component orientation agnostic.
-    var orient = {};
-    orient.pos = (this.options.vertical) ? 'y' : 'x';
-    orient.pagePos = (this.options.vertical ? 'pageY' : 'pageX');
-    orient.offset = (this.options.vertical ? 'top' : 'left');
-    orient.wrapperSize = (this.options.vertical ? 'wrapperH' : 'wrapperW');
-    orient.minScroll = (this.options.vertical ? 'minScrollY' : 'minScrollX');
-    orient.maxScroll = (this.options.vertical ? 'maxScrollY' : 'maxScrollX');
-
-    // Setup the iScroll component.
-    this.scroll = new iScroll(this.elements.scroll.eq(0)[0], {
-      hScroll: !this.options.vertical,
-      hScrollbar: !this.options.vertical,
-      vScroll: this.options.vertical,
-      vScrollbar: this.options.vertical,
-      hideScrollbar: true
-    });
-
-    // Use autoScroll for non-touch devices.
-    if ((this.options.scrollMode == 'auto') && !minplayer.hasTouch) {
-
-      // Bind to the mouse events for autoscrolling.
-      this.elements.list.bind('mousemove', (function(playlist) {
-        return function(event) {
-          event.preventDefault();
-          playlist.mousePos = event[orient.pagePos];
-          playlist.mousePos -= playlist.display.offset()[orient.offset];
-        };
-      })(this)).bind('mouseenter', (function(playlist) {
-        return function(event) {
-          event.preventDefault();
-          playlist.scrolling = true;
-          var setScroll = function() {
-            if (playlist.scrolling) {
-              var scrollSize = playlist.scroll[orient.wrapperSize];
-              var scrollMid = (scrollSize / 2);
-              var delta = playlist.mousePos - scrollMid;
-              if (Math.abs(delta) > playlist.options.hysteresis) {
-                var hyst = playlist.options.hysteresis;
-                hyst *= (delta > 0) ? -1 : 0;
-                delta = (playlist.options.scrollSpeed * (delta + hyst));
-                delta /= scrollMid;
-                var pos = playlist.scroll[orient.pos] - delta;
-                var min = playlist.scroll[orient.minScroll] || 0;
-                var max = playlist.scroll[orient.maxScroll];
-                if (pos >= min) {
-                  playlist.scrollTo(min);
-                }
-                else if (pos <= max) {
-                  playlist.scrollTo(max);
-                }
-                else {
-                  playlist.scrollTo(delta, true);
-                }
-              }
-
-              // Set timeout to try again.
-              setTimeout(setScroll, 30);
-            }
-          };
-          setScroll();
-        };
-      })(this)).bind('mouseleave', (function(playlist) {
-        return function(event) {
-          event.preventDefault();
-          playlist.scrolling = false;
-        };
-      })(this));
-    }
-  }
+  // Create our orientation variable.
+  this.orient = {
+    pos: this.options.vertical ? 'y' : 'x',
+    pagePos: this.options.vertical ? 'pageY' : 'pageX',
+    offset: this.options.vertical ? 'top' : 'left',
+    wrapperSize: this.options.vertical ? 'wrapperH' : 'wrapperW',
+    minScroll: this.options.vertical ? 'minScrollY' : 'minScrollX',
+    maxScroll: this.options.vertical ? 'maxScrollY' : 'maxScrollX',
+    size: this.options.vertical ? 'height' : 'width'
+  };
 
   // Create the pager.
   this.pager = this.create('pager', 'osmplayer');
@@ -151,20 +90,21 @@ osmplayer.playlist.prototype.construct = function() {
     };
   })(this));
 
-  // Get the media.
-  if (this.options.autoNext) {
-    this.get('media', function(media) {
-      media.bind('ended', (function(playlist) {
-        return function(event) {
-          media.options.autoplay = true;
-          playlist.next();
-        };
-      })(this));
-    });
-  }
-
   // Load the "next" item.
-  this.next();
+  if (this.next()) {
+
+    // Get the media.
+    if (this.options.autoNext) {
+      this.get('media', function(media) {
+        media.bind('ended', (function(playlist) {
+          return function(event) {
+            media.options.autoplay = true;
+            playlist.next();
+          };
+        })(this));
+      });
+    }
+  }
 
   // Say that we are ready.
   this.ready();
@@ -192,9 +132,89 @@ osmplayer.playlist.prototype.scrollTo = function(pos, relative) {
 /**
  * Refresh the scrollbar.
  */
-osmplayer.playlist.prototype.refresh = function() {
-  // Refresh the sizes.
-  if (this.scroll) {
+osmplayer.playlist.prototype.refreshScroll = function() {
+
+  // Make sure that our window has the addEventListener to keep IE happy.
+  if (!window.addEventListener) {
+    setTimeout((function(playlist) {
+      return function() {
+        playlist.refreshScroll.call(playlist);
+      }
+    })(this), 200);
+    return;
+  }
+
+  // Check the size of the playlist.
+  var list = this.elements.list;
+  var scroll = this.elements.scroll;
+
+  // Check to see if we should add a scroll bar functionality.
+  if ((!this.scroll) &&
+      (list.length > 0) &&
+      (scroll.length > 0) &&
+      (list[this.orient.size]() > scroll[this.orient.size]())) {
+
+    // Setup the iScroll component.
+    this.scroll = new iScroll(this.elements.scroll.eq(0)[0], {
+      hScroll: !this.options.vertical,
+      hScrollbar: !this.options.vertical,
+      vScroll: this.options.vertical,
+      vScrollbar: this.options.vertical,
+      hideScrollbar: true
+    });
+
+    // Use autoScroll for non-touch devices.
+    if ((this.options.scrollMode == 'auto') && !minplayer.hasTouch) {
+
+      // Bind to the mouse events for autoscrolling.
+      this.elements.list.bind('mousemove', (function(playlist) {
+        return function(event) {
+          event.preventDefault();
+          var offset = playlist.display.offset()[playlist.orient.offset];
+          playlist.mousePos = event[playlist.orient.pagePos];
+          playlist.mousePos -= offset;
+        };
+      })(this)).bind('mouseenter', (function(playlist) {
+        return function(event) {
+          event.preventDefault();
+          playlist.scrolling = true;
+          var setScroll = function() {
+            if (playlist.scrolling) {
+              var scrollSize = playlist.scroll[playlist.orient.wrapperSize];
+              var scrollMid = (scrollSize / 2);
+              var delta = playlist.mousePos - scrollMid;
+              if (Math.abs(delta) > playlist.options.hysteresis) {
+                var hyst = playlist.options.hysteresis;
+                hyst *= (delta > 0) ? -1 : 0;
+                delta = (playlist.options.scrollSpeed * (delta + hyst));
+                delta /= scrollMid;
+                var pos = playlist.scroll[playlist.orient.pos] - delta;
+                var min = playlist.scroll[playlist.orient.minScroll] || 0;
+                var max = playlist.scroll[playlist.orient.maxScroll];
+                if (pos >= min) {
+                  playlist.scrollTo(min);
+                }
+                else if (pos <= max) {
+                  playlist.scrollTo(max);
+                }
+                else {
+                  playlist.scrollTo(delta, true);
+                }
+              }
+
+              // Set timeout to try again.
+              setTimeout(setScroll, 30);
+            }
+          };
+          setScroll();
+        };
+      })(this)).bind('mouseleave', (function(playlist) {
+        return function(event) {
+          event.preventDefault();
+          playlist.scrolling = false;
+        };
+      })(this));
+    }
 
     // Need to force the width of the list.
     if (!this.options.vertical) {
@@ -207,6 +227,15 @@ osmplayer.playlist.prototype.refresh = function() {
 
     this.scroll.refresh();
     this.scroll.scrollTo(0, 0, 200);
+  }
+  else if (this.scroll) {
+
+    // Disable the scroll bar.
+    this.scroll.disable();
+    this.elements.list
+      .unbind('mousemove')
+      .unbind('mouseenter')
+      .unbind('mouseleave');
   }
 };
 
@@ -272,7 +301,7 @@ osmplayer.playlist.prototype.set = function(playlist, loadIndex) {
     }
 
     // Refresh the sizes.
-    this.refresh();
+    this.refreshScroll();
 
     // Trigger that the playlist has loaded.
     this.trigger('playlistLoad', playlist);
@@ -301,6 +330,8 @@ osmplayer.playlist.prototype.setQueue = function() {
 
 /**
  * Loads the next item.
+ *
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.next = function() {
   var item = 0, page = this.page;
@@ -313,17 +344,17 @@ osmplayer.playlist.prototype.next = function() {
       item = Math.floor(Math.random() * this.totalItems);
       page = Math.floor(item / this.options.pageLimit);
       item = item % this.options.pageLimit;
-      this.load(page, item);
+      return this.load(page, item);
     }
     else {
 
       // Otherwise, increment the current item by one.
       item = (this.currentItem + 1);
       if (item >= this.nodes.length) {
-        this.load(page + 1, 0);
+        return this.load(page + 1, 0);
       }
       else {
-        this.loadItem(item);
+        return this.loadItem(item);
       }
     }
   }
@@ -332,12 +363,14 @@ osmplayer.playlist.prototype.next = function() {
     // Load the next item in the playqueue.
     this.playqueuepos = this.playqueuepos + 1;
     var currentQueue = this.playqueue[this.playqueuepos];
-    this.load(currentQueue.page, currentQueue.item);
+    return this.load(currentQueue.page, currentQueue.item);
   }
 };
 
 /**
  * Loads the previous item.
+ *
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.prev = function() {
 
@@ -346,14 +379,16 @@ osmplayer.playlist.prototype.prev = function() {
   this.playqueuepos = (this.playqueuepos < 0) ? 0 : this.playqueuepos;
   var currentQueue = this.playqueue[this.playqueuepos];
   if (currentQueue) {
-    this.load(currentQueue.page, currentQueue.item);
+    return this.load(currentQueue.page, currentQueue.item);
   }
+  return false;
 };
 
 /**
  * Loads a playlist node.
  *
  * @param {number} index The index of the item you would like to load.
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.loadItem = function(index) {
   if (index < this.nodes.length) {
@@ -368,25 +403,30 @@ osmplayer.playlist.prototype.loadItem = function(index) {
     teaser = this.nodes[index];
     teaser.select(true);
     this.trigger('nodeLoad', teaser.node);
+    return true;
   }
+
+  return false;
 };
 
 /**
  * Loads the next page.
  *
  * @param {integer} loadIndex The index of the item to load.
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.nextPage = function(loadIndex) {
-  this.load(this.page + 1, loadIndex);
+  return this.load(this.page + 1, loadIndex);
 };
 
 /**
  * Loads the previous page.
  *
  * @param {integer} loadIndex The index of the item to load.
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.prevPage = function(loadIndex) {
-  this.load(this.page - 1, loadIndex);
+  return this.load(this.page - 1, loadIndex);
 };
 
 /**
@@ -394,12 +434,13 @@ osmplayer.playlist.prototype.prevPage = function(loadIndex) {
  *
  * @param {integer} page The page to load.
  * @param {integer} loadIndex The index of the item to load.
+ * @return {boolean} TRUE if loaded, FALSE if not.
  */
 osmplayer.playlist.prototype.load = function(page, loadIndex) {
 
   // If the playlist and pages are the same, then no need to load.
   if ((this.playlist == this.options.playlist) && (page == this.page)) {
-    this.loadItem(loadIndex);
+    return this.loadItem(loadIndex);
   }
 
   // Set the new playlist.
@@ -407,7 +448,7 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
 
   // Return if there aren't any playlists to play.
   if (!this.playlist) {
-    return;
+    return false;
   }
 
   // Determine if we need to loop.
@@ -418,7 +459,7 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
       loadIndex = 0;
     }
     else {
-      return;
+      return false;
     }
   }
 
@@ -451,7 +492,7 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
     if (this.playlist.endpoint) {
       this.playlist = this.options.playlist = this.playlist.endpoint;
     }
-    return;
+    return true;
   }
 
   // Get the highest priority parser.
@@ -503,4 +544,7 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
 
   // Perform an ajax callback.
   jQuery.ajax(request);
+
+  // Return that we did something.
+  return true;
 };
