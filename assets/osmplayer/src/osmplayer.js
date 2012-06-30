@@ -102,6 +102,16 @@ osmplayer.prototype.construct = function() {
     })(this));
   });
 
+  // Play each media sequentially...
+  this.get('media', (function(player) {
+    return function(media) {
+      media.bind('ended', function() {
+        player.options.autoplay = true;
+        player.playNext();
+      });
+    };
+  })(this));
+
   // Load the node if one is provided.
   if (this.options.node) {
     this.loadNode(this.options.node);
@@ -131,11 +141,25 @@ osmplayer.prototype.loadNode = function(node) {
       this.playQueue.length = 0;
       this.playQueue = [];
       this.playIndex = 0;
-      this.addToQueue(media.intro);
-      this.addToQueue(media.commercial);
-      this.addToQueue(media.prereel);
-      this.addToQueue(media.media);
-      this.addToQueue(media.postreel);
+      var file = null;
+      var types = [];
+
+      // For mobile devices, we should only show the main media.
+      if (minplayer.isAndroid || minplayer.isIDevice) {
+        types = ['media'];
+      }
+      else {
+        types = ['intro', 'commercial', 'prereel', 'media', 'postreel'];
+      }
+
+      // Iterate through the types.
+      jQuery.each(types, (function(player) {
+        return function(key, type) {
+          if (file = player.addToQueue(media[type])) {
+            file.queueType = type;
+          }
+        };
+      })(this));
     }
 
     // Load the preview image.
@@ -154,46 +178,13 @@ osmplayer.prototype.loadNode = function(node) {
  * Adds a file to the play queue.
  *
  * @param {object} file The file to add to the queue.
+ * @return {object} The file that was added to the queue.
  */
 osmplayer.prototype.addToQueue = function(file) {
-  if (file) {
-    this.playQueue.push(this.getFile(file));
-  }
-};
-
-/**
- * Returns a valid media file for this browser.
- *
- * @param {object} file The file object.
- * @return {object} The best media file.
- */
-osmplayer.prototype.getFile = function(file) {
-  if (file) {
-    var type = typeof file;
-    if (((type === 'object') || (type === 'array')) && file[0]) {
-      file = this.getBestMedia(file);
-    }
+  if (file = minplayer.getMediaFile(file)) {
+    this.playQueue.push(file);
   }
   return file;
-};
-
-/**
- * Returns the media file with the lowest weight value provided an array of
- * media files.
- *
- * @param {object} files The media files to play.
- * @return {object} The best media file.
- */
-osmplayer.prototype.getBestMedia = function(files) {
-  var mFile = null;
-  var i = files.length;
-  while (i--) {
-    var tempFile = new minplayer.file(files[i]);
-    if (!mFile || (tempFile.priority > mFile.priority)) {
-      mFile = tempFile;
-    }
-  }
-  return mFile;
 };
 
 /**
@@ -208,12 +199,16 @@ osmplayer.prototype.playNext = function() {
     this.playIndex = 0;
     this.playNext();
   }
-  else {
+  else if (this.playQueue.length > 0) {
     // If there is no playlist, and no repeat, we will
     // just seek to the beginning and pause.
-    this.options.autostart = false;
+    this.options.autoplay = false;
     this.playIndex = 0;
     this.playNext();
+  }
+  else if (this.media) {
+    // Stop the player and unload.
+    this.media.stop();
   }
 };
 

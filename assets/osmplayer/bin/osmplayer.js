@@ -2491,7 +2491,7 @@ minplayer.prototype.addEvents = function() {
           player.loadPlayer();
         }
         else {
-          player.error(data);
+          player.showError(data);
         }
       });
 
@@ -2508,7 +2508,7 @@ minplayer.prototype.addEvents = function() {
  *
  * @param {string} error The error to display on the player.
  */
-minplayer.prototype.error = function(error) {
+minplayer.prototype.showError = function(error) {
   error = error || '';
   if (this.elements.error) {
 
@@ -2609,7 +2609,7 @@ minplayer.getMediaFile = function(files) {
   for (var i in files) {
     if (files.hasOwnProperty(i)) {
       file = new minplayer.file(files[i]);
-      if (file.priority > bestPriority) {
+      if (file.player && (file.priority > bestPriority)) {
         mFile = file;
       }
     }
@@ -2630,12 +2630,12 @@ minplayer.prototype.loadPlayer = function() {
   }
 
   if (!this.options.file.player) {
-    this.error('Cannot play media: ' + this.options.file.mimetype);
+    this.showError('Cannot play media: ' + this.options.file.mimetype);
     return;
   }
 
   // Reset the error.
-  this.error();
+  this.showError();
 
   // Only destroy if the current player is different than the new player.
   var player = this.options.file.player.toString();
@@ -2648,7 +2648,7 @@ minplayer.prototype.loadPlayer = function() {
 
     // Do nothing if we don't have a display.
     if (!this.elements.display) {
-      this.error('No media display found.');
+      this.showError('No media display found.');
       return;
     }
 
@@ -2679,6 +2679,7 @@ minplayer.prototype.loadPlayer = function() {
   else if (this.media) {
 
     // Now load the different media file.
+    this.media.options = this.options;
     this.media.load(this.options.file);
   }
 };
@@ -2825,8 +2826,8 @@ minplayer.image.prototype.clear = function(callback) {
  * @param {integer} height (optional) The height of the container.
  */
 minplayer.image.prototype.resize = function(width, height) {
-  width = width || this.display.width();
-  height = height || this.display.height();
+  width = width || this.display.parent().width();
+  height = height || this.display.parent().height();
   if (width && height && this.loaded) {
 
     // Get the scaled rectangle.
@@ -2869,7 +2870,20 @@ var minplayer = minplayer || {};
  * @param {object} file A media file object with minimal required information.
  */
 minplayer.file = function(file) {
+
+  // If there isn't a file provided, then just return null.
+  if (!file) {
+    return null;
+  }
+
   file = (typeof file === 'string') ? {path: file} : file;
+
+  // If we already are a minplayer file, then just return this file.
+  if (file.hasOwnProperty('isMinPlayerFile')) {
+    return file;
+  }
+
+  this.isMinPlayerFile = true;
   this.duration = file.duration || 0;
   this.bytesTotal = file.bytesTotal || 0;
   this.quality = file.quality || 0;
@@ -3044,6 +3058,9 @@ minplayer.playLoader = function(context, options) {
   // Define the flags that control the big play button.
   this.bigPlay = new minplayer.flags();
 
+  // Define the flags the control the preview.
+  this.previewFlag = new minplayer.flags();
+
   /** The preview image. */
   this.preview = null;
 
@@ -3103,9 +3120,7 @@ minplayer.playLoader.prototype.construct = function() {
         return function(event) {
           playLoader.busy.setFlag('media', true);
           playLoader.bigPlay.setFlag('media', true);
-          if (playLoader.preview) {
-            playLoader.elements.preview.show();
-          }
+          playLoader.previewFlag.setFlag('media', true);
           playLoader.checkVisibility();
         };
       })(this));
@@ -3125,8 +3140,8 @@ minplayer.playLoader.prototype.construct = function() {
         return function(event) {
           playLoader.busy.setFlag('media', false);
           playLoader.bigPlay.setFlag('media', false);
-          if (playLoader.preview) {
-            playLoader.elements.preview.hide();
+          if (media.mediaFile.type !== 'audio') {
+            playLoader.previewFlag.setFlag('media', false);
           }
           playLoader.checkVisibility();
         };
@@ -3144,6 +3159,7 @@ minplayer.playLoader.prototype.construct = function() {
       this.enabled = false;
       this.hide(this.elements.busy);
       this.hide(this.elements.bigPlay);
+      this.hide(this.elements.preview);
       this.hide();
     }
   });
@@ -3212,13 +3228,20 @@ minplayer.playLoader.prototype.checkVisibility = function() {
     this.elements.bigPlay.hide();
   }
 
+  if (this.previewFlag.flag) {
+    this.elements.preview.show();
+  }
+  else {
+    this.elements.preview.hide();
+  }
+
   // Show the control either flag is set.
-  if (this.bigPlay.flag || this.busy.flag) {
+  if (this.bigPlay.flag || this.busy.flag || this.previewFlag.flag) {
     this.display.show();
   }
 
   // Hide the whole control if both flags are 0.
-  if (!this.bigPlay.flag && !this.busy.flag) {
+  if (!this.bigPlay.flag && !this.busy.flag && !this.previewFlag.flag) {
     this.display.hide();
   }
 };
@@ -4346,7 +4369,7 @@ minplayer.players.flash.prototype.getFlash = function(params) {
   // Create the swfobject.
   setTimeout((function(player) {
     return function tryAgain() {
-      if (swfobject) {
+      if (typeof swfobject !== 'undefined') {
         swfobject.embedSWF(
           params.swf,
           params.id,
@@ -4379,11 +4402,8 @@ minplayer.players.flash.prototype.getFlash = function(params) {
     };
   })(this), 200);
 
-  // Return the ultimate fallback...
-  var output = '<div id="' + params.id + '">';
-  output += 'You must download Flash to view this media';
-  output += '</div>';
-  return output;
+  // Return the div tag...
+  return '<div id="' + params.id + '"></div>';
 };
 
 /**
@@ -4471,7 +4491,11 @@ minplayer.players.minplayer.getPriority = function() {
  * @return {boolean} If this player can play this media type.
  */
 minplayer.players.minplayer.canPlay = function(file) {
-  return (file.type == 'video' || file.type == 'audio');
+  var isWEBM = jQuery.inArray(file.mimetype, ['video/x-webm',
+    'video/webm',
+    'application/octet-stream'
+  ]) >= 0;
+  return !isWEBM && (file.type == 'video' || file.type == 'audio');
 };
 
 /**
@@ -4866,7 +4890,7 @@ minplayer.players.youtube.prototype.create = function() {
   this.poll((function(player) {
     return function() {
       var ready = jQuery('#' + player.playerId).length > 0;
-      ready = ready && window.hasOwnProperty('YT');
+      ready = ready && ('YT' in window);
       ready = ready && (typeof YT.Player == 'function');
       if (ready) {
         // Determine the origin of this script.
@@ -5789,6 +5813,16 @@ osmplayer.prototype.construct = function() {
     })(this));
   });
 
+  // Play each media sequentially...
+  this.get('media', (function(player) {
+    return function(media) {
+      media.bind('ended', function() {
+        player.options.autoplay = true;
+        player.playNext();
+      });
+    };
+  })(this));
+
   // Load the node if one is provided.
   if (this.options.node) {
     this.loadNode(this.options.node);
@@ -5818,11 +5852,25 @@ osmplayer.prototype.loadNode = function(node) {
       this.playQueue.length = 0;
       this.playQueue = [];
       this.playIndex = 0;
-      this.addToQueue(media.intro);
-      this.addToQueue(media.commercial);
-      this.addToQueue(media.prereel);
-      this.addToQueue(media.media);
-      this.addToQueue(media.postreel);
+      var file = null;
+      var types = [];
+
+      // For mobile devices, we should only show the main media.
+      if (minplayer.isAndroid || minplayer.isIDevice) {
+        types = ['media'];
+      }
+      else {
+        types = ['intro', 'commercial', 'prereel', 'media', 'postreel'];
+      }
+
+      // Iterate through the types.
+      jQuery.each(types, (function(player) {
+        return function(key, type) {
+          if (file = player.addToQueue(media[type])) {
+            file.queueType = type;
+          }
+        };
+      })(this));
     }
 
     // Load the preview image.
@@ -5841,46 +5889,13 @@ osmplayer.prototype.loadNode = function(node) {
  * Adds a file to the play queue.
  *
  * @param {object} file The file to add to the queue.
+ * @return {object} The file that was added to the queue.
  */
 osmplayer.prototype.addToQueue = function(file) {
-  if (file) {
-    this.playQueue.push(this.getFile(file));
-  }
-};
-
-/**
- * Returns a valid media file for this browser.
- *
- * @param {object} file The file object.
- * @return {object} The best media file.
- */
-osmplayer.prototype.getFile = function(file) {
-  if (file) {
-    var type = typeof file;
-    if (((type === 'object') || (type === 'array')) && file[0]) {
-      file = this.getBestMedia(file);
-    }
+  if (file = minplayer.getMediaFile(file)) {
+    this.playQueue.push(file);
   }
   return file;
-};
-
-/**
- * Returns the media file with the lowest weight value provided an array of
- * media files.
- *
- * @param {object} files The media files to play.
- * @return {object} The best media file.
- */
-osmplayer.prototype.getBestMedia = function(files) {
-  var mFile = null;
-  var i = files.length;
-  while (i--) {
-    var tempFile = new minplayer.file(files[i]);
-    if (!mFile || (tempFile.priority > mFile.priority)) {
-      mFile = tempFile;
-    }
-  }
-  return mFile;
 };
 
 /**
@@ -5895,12 +5910,16 @@ osmplayer.prototype.playNext = function() {
     this.playIndex = 0;
     this.playNext();
   }
-  else {
+  else if (this.playQueue.length > 0) {
     // If there is no playlist, and no repeat, we will
     // just seek to the beginning and pause.
-    this.options.autostart = false;
+    this.options.autoplay = false;
     this.playIndex = 0;
     this.playNext();
+  }
+  else if (this.media) {
+    // Stop the player and unload.
+    this.media.stop();
   }
 };
 
