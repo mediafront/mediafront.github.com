@@ -42,6 +42,9 @@ minplayer.plugin = function(name, context, options, queue) {
   // Only call the constructor if we have a context.
   if (context) {
 
+    /** Say that we are active. */
+    this.active = true;
+
     /** Keep track of the context. */
     this.context = jQuery(context);
 
@@ -69,6 +72,7 @@ minplayer.plugin.prototype.construct = function() {
 minplayer.plugin.prototype.destroy = function() {
 
   // Unbind all events.
+  this.active = false;
   this.unbind();
 };
 
@@ -143,7 +147,7 @@ minplayer.plugin.prototype.ready = function() {
  * @return {boolean} TRUE if the plugin display is valid.
  */
 minplayer.plugin.prototype.isValid = function() {
-  return !!this.options.id;
+  return !!this.options.id && this.active;
 };
 
 /**
@@ -250,7 +254,8 @@ minplayer.plugin.prototype.checkQueue = function(plugin) {
           q.event,
           this.options.id,
           plugin.name,
-          q.callback
+          q.callback,
+          true
         );
       }
 
@@ -278,6 +283,12 @@ minplayer.plugin.prototype.checkQueue = function(plugin) {
  * @return {object} The plugin object.
  */
 minplayer.plugin.prototype.trigger = function(type, data) {
+
+  // Don't trigger if this plugin is inactive.
+  if (!this.active) {
+    return this;
+  }
+
   // Add this to our triggered array.
   this.triggered[type] = data;
 
@@ -312,6 +323,11 @@ minplayer.plugin.prototype.trigger = function(type, data) {
  * @return {object} The plugin object.
  **/
 minplayer.plugin.prototype.bind = function(type, data, fn) {
+
+  // Only bind if active.
+  if (!this.active) {
+    return this;
+  }
 
   // Allow the data to be the callback.
   if (typeof data === 'function') {
@@ -435,10 +451,11 @@ minplayer.addQueue = function(context, event, id, plugin, callback) {
  * @param {string} id The player ID.
  * @param {string} plugin The name of the plugin.
  * @param {function} callback Called when the event occurs.
+ * @param {boolean} fromCheck If this is from a checkqueue.
  * @return {boolean} If the bind was successful.
  * @this The object in context who called this method.
  */
-minplayer.bind = function(event, id, plugin, callback) {
+minplayer.bind = function(event, id, plugin, callback, fromCheck) {
 
   // If no callback exists, then just return false.
   if (!callback) {
@@ -499,10 +516,8 @@ minplayer.bind = function(event, id, plugin, callback) {
     })(this));
   }
 
-  // See if there were any plugins selected.
-  if (selected.length == 0) {
-
-    // If not, then add it to the queue to bind later.
+  // Add it to the queue for post bindings...
+  if ((selected.length == 0) && !fromCheck) {
     minplayer.addQueue(this, event, id, plugin, callback);
   }
 
@@ -568,16 +583,24 @@ minplayer.bind = function(event, id, plugin, callback) {
  */
 minplayer.get = function(id, plugin, callback) {
 
+  // Get the parameter types.
+  var idType = typeof id;
+  var pluginType = typeof plugin;
+  var callbackType = typeof callback;
+
   // Normalize the arguments for a better interface.
-  if (typeof id === 'function') {
+  if (idType === 'function') {
     callback = id;
     plugin = id = null;
   }
-
-  if (typeof plugin === 'function') {
+  else if (pluginType === 'function') {
     callback = plugin;
     plugin = id;
     id = null;
+  }
+  else if ((pluginType === 'undefined') && (callbackType === 'undefined')) {
+    plugin = id;
+    callback = id = null;
   }
 
   // Make sure the callback is a callback.

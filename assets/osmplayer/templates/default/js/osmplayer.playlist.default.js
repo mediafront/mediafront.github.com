@@ -22,6 +22,7 @@
    */
   osmplayer.playlist[template].prototype.construct = function() {
 
+    // Set some defaults.
     this.options = jQuery.extend({
       showPlaylist: true
     }, this.options);
@@ -29,7 +30,7 @@
     osmplayer.playlist.prototype.construct.call(this);
 
     // Show then hide the element.
-    minplayer.showThenHide(this.elements.hideShow);
+    this.showThenHide(this.elements.hideShow);
 
     // Make the main minplayer have the same width as the playlist.
     this.get('player', function(player) {
@@ -49,11 +50,13 @@
         var to = show ? 'ui-icon-triangle-1-' + e : 'ui-icon-triangle-1-' + w;
         jQuery('span', this.elements.hideShow).removeClass(from).addClass(to);
         playerPos[position] = show ? displaySize : 0;
-        if (animate) {
-          player.elements.minplayer.animate(playerPos, 'fast');
-        }
-        else {
-          player.elements.minplayer.css(playerPos);
+        if (player.elements.minplayer) {
+          if (animate) {
+            player.elements.minplayer.animate(playerPos, 'fast');
+          }
+          else {
+            player.elements.minplayer.css(playerPos);
+          }
         }
         displayPos[margin] = show ? 0 : -displaySize;
         if (animate) {

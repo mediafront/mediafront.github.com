@@ -319,7 +319,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/minplayer.display.html">minplayer.display</a>: </dt><dd><a href="../symbols/minplayer.display.html#onResize">onResize</a></dd><dt>Fields borrowed from class <a href="../symbols/minplayer.plugin.html">minplayer.plugin</a>: </dt><dd><a href="../symbols/minplayer.plugin.html#context">context</a>, <a href="../symbols/minplayer.plugin.html#lock">lock</a>, <a href="../symbols/minplayer.plugin.html#name">name</a>, <a href="../symbols/minplayer.plugin.html#options">options</a>, <a href="../symbols/minplayer.plugin.html#pluginReady">pluginReady</a>, <a href="../symbols/minplayer.plugin.html#queue">queue</a>, <a href="../symbols/minplayer.plugin.html#triggered">triggered</a></dd>
+				<dt>Fields borrowed from class <a href="../symbols/minplayer.display.html">minplayer.display</a>: </dt><dd><a href="../symbols/minplayer.display.html#onResize">onResize</a></dd><dt>Fields borrowed from class <a href="../symbols/minplayer.plugin.html">minplayer.plugin</a>: </dt><dd><a href="../symbols/minplayer.plugin.html#active">active</a>, <a href="../symbols/minplayer.plugin.html#context">context</a>, <a href="../symbols/minplayer.plugin.html#lock">lock</a>, <a href="../symbols/minplayer.plugin.html#name">name</a>, <a href="../symbols/minplayer.plugin.html#options">options</a>, <a href="../symbols/minplayer.plugin.html#pluginReady">pluginReady</a>, <a href="../symbols/minplayer.plugin.html#queue">queue</a>, <a href="../symbols/minplayer.plugin.html#triggered">triggered</a></dd>
 				</dl>
 				
 			
@@ -467,9 +467,18 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">minplayer.players.base.<b><a href="../symbols/minplayer.players.base.html#.getPriority">getPriority</a></b>()
+								<div class="fixedFont">minplayer.players.base.<b><a href="../symbols/minplayer.players.base.html#.getPriority">getPriority</a></b>(file)
 								</div>
 								<div class="description">Get the priority of this media player.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/minplayer.players.base.html#getSeek">getSeek</a></b>()
+								</div>
+								<div class="description">Returns the amount of seconds you would like to seek.</div>
 							</td>
 						</tr>
 					
@@ -503,7 +512,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/minplayer.players.base.html#hasPlayLoader">hasPlayLoader</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/minplayer.players.base.html#hasPlayLoader">hasPlayLoader</a></b>(preview)
 								</div>
 								<div class="description">Determines if the player should show the playloader.</div>
 							</td>
@@ -677,7 +686,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/minplayer.display.html">minplayer.display</a>: </dt><dd><a href="../symbols/minplayer.display.html#fullscreen">fullscreen</a>, <a href="../symbols/minplayer.display.html#fullScreenElement">fullScreenElement</a>, <a href="../symbols/minplayer.display.html#getDisplay">getDisplay</a>, <a href="../symbols/minplayer.display.html#getScaledRect">getScaledRect</a>, <a href="../symbols/minplayer.display.html#hide">hide</a>, <a href="../symbols/minplayer.display.html#isFullScreen">isFullScreen</a>, <a href="../symbols/minplayer.display.html#onFocus">onFocus</a>, <a href="../symbols/minplayer.display.html#toggleFullScreen">toggleFullScreen</a></dd><dt>Methods borrowed from class <a href="../symbols/minplayer.plugin.html">minplayer.plugin</a>: </dt><dd><a href="../symbols/minplayer.plugin.html#addPlugin">addPlugin</a>, <a href="../symbols/minplayer.plugin.html#bind">bind</a>, <a href="../symbols/minplayer.plugin.html#checkQueue">checkQueue</a>, <a href="../symbols/minplayer.plugin.html#get">get</a>, <a href="../symbols/minplayer.plugin.html#isValid">isValid</a>, <a href="../symbols/minplayer.plugin.html#poll">poll</a>, <a href="../symbols/minplayer.plugin.html#ready">ready</a>, <a href="../symbols/minplayer.plugin.html#trigger">trigger</a>, <a href="../symbols/minplayer.plugin.html#unbind">unbind</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/minplayer.display.html">minplayer.display</a>: </dt><dd><a href="../symbols/minplayer.display.html#fullscreen">fullscreen</a>, <a href="../symbols/minplayer.display.html#fullScreenElement">fullScreenElement</a>, <a href="../symbols/minplayer.display.html#getDisplay">getDisplay</a>, <a href="../symbols/minplayer.display.html#getScaledRect">getScaledRect</a>, <a href="../symbols/minplayer.display.html#hide">hide</a>, <a href="../symbols/minplayer.display.html#isFullScreen">isFullScreen</a>, <a href="../symbols/minplayer.display.html#onFocus">onFocus</a>, <a href="../symbols/minplayer.display.html#showThenHide">showThenHide</a>, <a href="../symbols/minplayer.display.html#toggleFullScreen">toggleFullScreen</a></dd><dt>Methods borrowed from class <a href="../symbols/minplayer.plugin.html">minplayer.plugin</a>: </dt><dd><a href="../symbols/minplayer.plugin.html#addPlugin">addPlugin</a>, <a href="../symbols/minplayer.plugin.html#bind">bind</a>, <a href="../symbols/minplayer.plugin.html#checkQueue">checkQueue</a>, <a href="../symbols/minplayer.plugin.html#get">get</a>, <a href="../symbols/minplayer.plugin.html#isValid">isValid</a>, <a href="../symbols/minplayer.plugin.html#poll">poll</a>, <a href="../symbols/minplayer.plugin.html#ready">ready</a>, <a href="../symbols/minplayer.plugin.html#trigger">trigger</a>, <a href="../symbols/minplayer.plugin.html#unbind">unbind</a></dd>
 				</dl>
 				
 			
@@ -1317,11 +1326,54 @@ ul.inheritsList
 					<div class="fixedFont">&lt;static&gt; 
 					
 					<span class="light">{number}</span>
-					<span class="light">minplayer.players.base.</span><b>getPriority</b>()
+					<span class="light">minplayer.players.base.</span><b>getPriority</b>(file)
 					
 					</div>
 					<div class="description">
 						Get the priority of this media player.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>file</b>
+									
+								</dt>
+								<dd>A <a href="../symbols/minplayer.file.html">minplayer.file</a> object.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{number}</span> The priority of this media player.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSeek"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{number}</span>
+					<b>getSeek</b>()
+					
+					</div>
+					<div class="description">
+						Returns the amount of seconds you would like to seek.
 						
 						
 					</div>
@@ -1336,7 +1388,7 @@ ul.inheritsList
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{number}</span> The priority of this media player.</dd>
+								<dd><span class="light fixedFont">{number}</span> The number of seconds we should seek.</dd>
 							
 							</dl>
 						
@@ -1466,7 +1518,7 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					<span class="light">{bool}</span>
-					<b>hasPlayLoader</b>()
+					<b>hasPlayLoader</b>(preview)
 					
 					</div>
 					<div class="description">
@@ -1477,6 +1529,17 @@ ul.inheritsList
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>preview</b>
+									
+								</dt>
+								<dd>The preview image.</dd>
+							
+							</dl>
 						
 						
 						
@@ -2085,7 +2148,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jun 29 2012 18:36:58 GMT-0700 (PDT)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Oct 11 2012 14:34:57 GMT-0500 (CDT)
 		</div>
 	</body>
 </html>

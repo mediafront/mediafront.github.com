@@ -29,10 +29,24 @@ minplayer.players.youtube.prototype = new minplayer.players.base();
 minplayer.players.youtube.prototype.constructor = minplayer.players.youtube;
 
 /**
+ * @see minplayer.plugin.construct
+ * @this minplayer.players.youtube
+ */
+minplayer.players.youtube.prototype.construct = function() {
+
+  // Call the players.flash constructor.
+  minplayer.players.base.prototype.construct.call(this);
+
+  // Set the plugin name within the options.
+  this.options.pluginName = 'youtube';
+};
+
+/**
  * @see minplayer.players.base#getPriority
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.youtube.getPriority = function() {
+minplayer.players.youtube.getPriority = function(file) {
   return 10;
 };
 
@@ -72,11 +86,11 @@ minplayer.players.youtube.getMediaId = function(file) {
  *
  * @param {object} file A {@link minplayer.file} object.
  * @param {string} type The type of image.
- * @return {string} The full path to the preview image.
+ * @param {function} callback Called when the image is retrieved.
  */
-minplayer.players.youtube.getImage = function(file, type) {
+minplayer.players.youtube.getImage = function(file, type, callback) {
   type = (type == 'thumbnail') ? '1' : '0';
-  return 'http://img.youtube.com/vi/' + file.id + '/' + type + '.jpg';
+  callback('http://img.youtube.com/vi/' + file.id + '/' + type + '.jpg');
 };
 
 /**
@@ -123,7 +137,8 @@ minplayer.players.youtube.prototype.onReady = function(event) {
  * @return {bool} TRUE - Player is found, FALSE - otherwise.
  */
 minplayer.players.youtube.prototype.playerFound = function() {
-  var iframe = this.display.find('iframe#' + this.options.id + '-player');
+  var id = 'iframe#' + this.options.id + '-player.youtube-player';
+  var iframe = this.display.find(id);
   return (iframe.length > 0);
 };
 
@@ -148,10 +163,11 @@ minplayer.players.youtube.prototype.onQualityChange = function(newQuality) {
 /**
  * Determines if the player should show the playloader.
  *
+ * @param {string} preview The preview image.
  * @return {bool} If this player implements its own playLoader.
  */
-minplayer.players.youtube.prototype.hasPlayLoader = function() {
-  return true;
+minplayer.players.youtube.prototype.hasPlayLoader = function(preview) {
+  return minplayer.hasTouch || !preview;
 };
 
 /**
@@ -187,6 +203,7 @@ minplayer.players.youtube.prototype.create = function() {
       ready = ready && (typeof YT.Player == 'function');
       if (ready) {
         // Determine the origin of this script.
+        jQuery('#' + player.playerId).addClass('youtube-player');
         var origin = location.protocol;
         origin += '//' + location.hostname;
         origin += (location.port && ':' + location.port);
@@ -256,6 +273,7 @@ minplayer.players.youtube.prototype.load = function(file) {
  */
 minplayer.players.youtube.prototype.play = function() {
   if (minplayer.players.base.prototype.play.call(this)) {
+    this.onWaiting();
     this.player.playVideo();
     return true;
   }
@@ -295,6 +313,7 @@ minplayer.players.youtube.prototype.stop = function() {
  */
 minplayer.players.youtube.prototype.seek = function(pos) {
   if (minplayer.players.base.prototype.seek.call(this, pos)) {
+    this.onWaiting();
     this.player.seekTo(pos, true);
     return true;
   }

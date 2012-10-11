@@ -26,6 +26,19 @@ minplayer.players.minplayer.prototype = new minplayer.players.flash();
 minplayer.players.minplayer.prototype.constructor = minplayer.players.minplayer;
 
 /**
+ * @see minplayer.plugin.construct
+ * @this minplayer.players.minplayer
+ */
+minplayer.players.minplayer.prototype.construct = function() {
+
+  // Call the players.flash constructor.
+  minplayer.players.flash.prototype.construct.call(this);
+
+  // Set the plugin name within the options.
+  this.options.pluginName = 'minplayer';
+};
+
+/**
  * Called when the Flash player is ready.
  *
  * @param {string} id The media player ID.
@@ -65,10 +78,12 @@ window.onFlashPlayerDebug = function(debug) {
 
 /**
  * @see minplayer.players.base#getPriority
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.minplayer.getPriority = function() {
-  return 1;
+minplayer.players.minplayer.getPriority = function(file) {
+  // Force this player if the stream is set.
+  return file.stream ? 100 : 1;
 };
 
 /**
@@ -76,7 +91,14 @@ minplayer.players.minplayer.getPriority = function() {
  * @return {boolean} If this player can play this media type.
  */
 minplayer.players.minplayer.canPlay = function(file) {
-  var isWEBM = jQuery.inArray(file.mimetype, ['video/x-webm',
+
+  // If this has a stream, then the minplayer must play it.
+  if (file.stream) {
+    return true;
+  }
+
+  var isWEBM = jQuery.inArray(file.mimetype, [
+    'video/x-webm',
     'video/webm',
     'application/octet-stream'
   ]) >= 0;
@@ -102,6 +124,7 @@ minplayer.players.minplayer.prototype.create = function() {
     'debug': this.options.debug,
     'config': 'nocontrols',
     'file': this.mediaFile.path,
+    'stream': this.mediaFile.stream,
     'autostart': this.options.autoplay,
     'autoload': this.options.autoload
   };

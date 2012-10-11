@@ -26,10 +26,24 @@ minplayer.players.flash.prototype = new minplayer.players.base();
 minplayer.players.flash.prototype.constructor = minplayer.players.flash;
 
 /**
+ * @see minplayer.plugin.construct
+ * @this minplayer.players.flash
+ */
+minplayer.players.flash.prototype.construct = function() {
+
+  // Call the players.base constructor.
+  minplayer.players.base.prototype.construct.call(this);
+
+  // Set the plugin name within the options.
+  this.options.pluginName = 'flash';
+};
+
+/**
  * @see minplayer.players.base#getPriority
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.flash.getPriority = function() {
+minplayer.players.flash.getPriority = function(file) {
   return 0;
 };
 

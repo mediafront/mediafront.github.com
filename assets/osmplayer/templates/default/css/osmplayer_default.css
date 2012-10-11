@@ -37,6 +37,7 @@
 .player-ui .minplayer-default-display {
   width:100%;
   height:100%;
+  border: none;
 }
 
 .player-ui .minplayer-default-display video {
@@ -49,6 +50,11 @@
   height:100%;
   position:absolute;
   z-index:1;
+  border: none;
+}
+
+.player-ui .minplayer-default-preview.no-image {
+  background: transparent;
 }
 
 .player-ui .minplayer-default-loader-wrapper {
@@ -100,13 +106,6 @@
   box-shadow: 2px 2px 4px #000;
   -webkit-box-shadow: 2px 2px 4px #000;
   -moz-box-shadow: 2px 2px 4px #000;
-}
-
-.player-ui .minplayer-default-big-play span {
-  margin: 22px 0 0 48px;
-  border-left: 36px solid white;
-  border-top: 18px solid transparent;
-  border-bottom: 18px solid transparent;
 }
 
 .player-ui .minplayer-default-big-play span {
@@ -173,6 +172,10 @@
   margin: 3px;
 }
 
+.player-ui .minplayer-controls-volume-horizontal .minplayer-default-controls-right {
+  width: 200px;
+}
+
 .player-ui .minplayer-default.fullscreen .minplayer-default-controls-right {
   width:110px;
 }
@@ -183,6 +186,10 @@
   right:130px;
   height:30px;
   margin: 3px;
+}
+
+.player-ui .minplayer-controls-volume-horizontal .minplayer-default-controls-mid {
+  right: 210px;
 }
 
 .player-ui .minplayer-default.fullscreen .minplayer-default-controls-mid {
@@ -292,6 +299,7 @@
   font-size: 16px;
   font-weight: bold;
   border-right:1px solid #888;
+  margin-top: 4px;
 }
 
 .player-ui .minplayer-default.fullscreen .minplayer-default-timer {
@@ -300,11 +308,6 @@
 
 /* volume */
 .player-ui .minplayer-default-volume {
-  position: absolute;
-  right:38px;
-  bottom:1px;
-  overflow: hidden;
-  width: 26px;
   height: 26px;
   -moz-transition: all 0.1s ease-in-out; /* Firefox */
   -webkit-transition: all 0.1s ease-in-out; /* Safari and Chrome */
@@ -312,18 +315,32 @@
   transition: all 0.1s ease-in-out;
 }
 
+.player-ui .minplayer-controls-volume-vertical .minplayer-default-volume {
+  position: absolute;
+  right:38px;
+  bottom:1px;
+  overflow: hidden;
+  width: 26px;
+}
+
+.player-ui .minplayer-controls-volume-horizontal .minplayer-default-volume {
+  position: relative;
+  width: 126px;
+  margin-left: 5px;
+}
+
 .player-ui .minplayer-default.fullscreen .minplayer-default-volume {
   right:44px;
   bottom:12px;
 }
 
-.player-ui .minplayer-default-volume:hover {
+.player-ui .minplayer-controls-volume-vertical .minplayer-default-volume:hover {
   height: 133px;
   height: 130px\9;
 }
 
 
-.player-ui .minplayer-default-volume:hover .minplayer-default-volume-slider {
+.player-ui .minplayer-controls-volume-vertical .minplayer-default-volume:hover .minplayer-default-volume-slider {
   position: relative;
   display: block;
   visibility: visible;
@@ -332,12 +349,6 @@
 
 .player-ui .minplayer-default-volume-slider {
   position: relative;
-  height: 100px;
-  width: 7px;
-  left: 8px;
-  visiblity: hidden;
-  display: none;
-  opacity: 0;
   border: 1px solid #444;
   -moz-border-radius:15px;
   -webkit-border-radius:15px;
@@ -348,14 +359,27 @@
   transition: all 0.1s ease-in-out;
 }
 
+.player-ui .minplayer-controls-volume-vertical .minplayer-default-volume-slider {
+  height: 100px;
+  width: 7px;
+  left: 8px;
+  visiblity: hidden;
+  display: none;
+  opacity: 0;
+}
+
+.player-ui .minplayer-controls-volume-horizontal .minplayer-default-volume-slider {
+  height: 7px;
+  width: 78px;
+  top: 8px;
+  left: 32px;
+}
+
 .player-ui .minplayer-default-volume-slider .ui-slider-handle {
   position: absolute;
   z-index: 20;
   width: 12px;
   height: 12px;
-  left: -4px;
-  margin-bottom:-0.6em;
-  margin-left:0;
   border: 1px solid #333;
   -moz-border-radius:10px;
   -webkit-border-radius:10px;
@@ -364,6 +388,16 @@
   background-image: -moz-linear-gradient(top, #e6e6e6, #d5d5d5);
   background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #e6e6e6),color-stop(1, #d5d5d5));
   box-shadow: inset 0 3px 3px #d5d5d5;
+}
+
+.player-ui .minplayer-controls-volume-horizontal .minplayer-default-volume-slider .ui-slider-handle {
+  margin-top:1px;
+}
+
+.player-ui .minplayer-controls-volume-vertical .minplayer-default-volume-slider .ui-slider-handle {
+  left: -4px;
+  margin-bottom:-0.6em;
+  margin-left:0;
 }
 
 .player-ui .minplayer-default-volume-slider .ui-slider-handle.ui-state-hover {
@@ -459,7 +493,10 @@
   bottom: 34px;
 }
 
-.player-ui .ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.6em; }
+.player-ui .ui-slider-horizontal .ui-slider-handle {
+  top: -5px;
+  margin-left: -5px;
+}
 
 
 /** OSM Player Styles **/

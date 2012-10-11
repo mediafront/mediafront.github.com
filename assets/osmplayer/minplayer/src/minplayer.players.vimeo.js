@@ -26,10 +26,24 @@ minplayer.players.vimeo.prototype = new minplayer.players.base();
 minplayer.players.vimeo.prototype.constructor = minplayer.players.vimeo;
 
 /**
+ * @see minplayer.plugin.construct
+ * @this minplayer.players.vimeo
+ */
+minplayer.players.vimeo.prototype.construct = function() {
+
+  // Call the players.flash constructor.
+  minplayer.players.base.prototype.construct.call(this);
+
+  // Set the plugin name within the options.
+  this.options.pluginName = 'vimeo';
+};
+
+/**
  * @see minplayer.players.base#getPriority
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.vimeo.getPriority = function() {
+minplayer.players.vimeo.getPriority = function(file) {
   return 10;
 };
 
@@ -51,10 +65,11 @@ minplayer.players.vimeo.canPlay = function(file) {
 /**
  * Determines if the player should show the playloader.
  *
+ * @param {string} preview The preview image.
  * @return {bool} If this player implements its own playLoader.
  */
-minplayer.players.vimeo.prototype.hasPlayLoader = function() {
-  return minplayer.hasTouch;
+minplayer.players.vimeo.prototype.hasPlayLoader = function(preview) {
+  return minplayer.hasTouch || !preview;
 };
 
 /**
@@ -80,6 +95,23 @@ minplayer.players.vimeo.getMediaId = function(file) {
   else {
     return file.path;
   }
+};
+
+/**
+ * Returns a preview image for this media player.
+ *
+ * @param {object} file A {@link minplayer.file} object.
+ * @param {string} type The type of image.
+ * @param {function} callback Called when the image is retrieved.
+ */
+minplayer.players.vimeo.getImage = function(file, type, callback) {
+  jQuery.ajax({
+    url: 'http://vimeo.com/api/v2/video/' + file.id + '.json',
+    dataType: 'jsonp',
+    success: function(data) {
+      callback(data[0].thumbnail_large);
+    }
+  });
 };
 
 /**
@@ -111,6 +143,7 @@ minplayer.players.vimeo.prototype.create = function() {
   iframe.setAttribute('width', '100%');
   iframe.setAttribute('height', '100%');
   iframe.setAttribute('frameborder', '0');
+  jQuery(iframe).addClass('vimeo-player');
 
   // Get the source.
   var src = 'http://player.vimeo.com/video/';
@@ -202,12 +235,25 @@ minplayer.players.vimeo.prototype.onReady = function(player_id) {
 };
 
 /**
- * Checks to see if this player can be found.
- * @return {bool} TRUE - Player is found, FALSE - otherwise.
+ * Clears the media player.
  */
-minplayer.players.vimeo.prototype.playerFound = function() {
-  var iframe = this.display.find('iframe#' + this.options.id + '-player');
-  return (iframe.length > 0);
+minplayer.players.vimeo.prototype.clear = function() {
+  if (this.player) {
+    this.player.api('unload');
+  }
+  minplayer.players.base.prototype.clear.call(this);
+};
+
+/**
+ * @see minplayer.players.base#load
+ * @return {boolean} If this action was performed.
+ */
+minplayer.players.vimeo.prototype.load = function(file) {
+  if (minplayer.players.base.prototype.load.call(this, file)) {
+    this.construct();
+    return true;
+  }
+  return false;
 };
 
 /**

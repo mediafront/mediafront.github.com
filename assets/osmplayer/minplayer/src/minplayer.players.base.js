@@ -40,9 +40,10 @@ minplayer.players.base.prototype.getElements = function() {
 /**
  * Get the priority of this media player.
  *
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.base.getPriority = function() {
+minplayer.players.base.getPriority = function(file) {
   return 0;
 };
 
@@ -75,8 +76,14 @@ minplayer.players.base.prototype.construct = function() {
   // Call the media display constructor.
   minplayer.display.prototype.construct.call(this);
 
+  // Set the plugin name within the options.
+  this.options.pluginName = 'basePlayer';
+
   /** The currently loaded media file. */
   this.mediaFile = this.options.file;
+
+  // Make sure we always autoplay on streams.
+  this.options.autoplay = this.options.autoplay || this.mediaFile.stream;
 
   // Clear the media player.
   this.clear();
@@ -94,7 +101,6 @@ minplayer.players.base.prototype.construct = function() {
   // Toggle playing if they click.
   minplayer.click(this.display, (function(player) {
     return function() {
-      minplayer.showAll();
       if (player.playing) {
         player.pause();
       }
@@ -288,6 +294,44 @@ minplayer.players.base.prototype.onReady = function() {
 };
 
 /**
+ * Returns the amount of seconds you would like to seek.
+ *
+ * @return {number} The number of seconds we should seek.
+ */
+minplayer.players.base.prototype.getSeek = function() {
+  var seconds = 0, minutes = 0, hours = 0;
+
+  // See if they would like to seek.
+  if (minplayer.urlVars && minplayer.urlVars.seek) {
+
+    // Get the seconds.
+    seconds = minplayer.urlVars.seek.match(/([0-9])s/i);
+    if (seconds) {
+      seconds = parseInt(seconds[1], 10);
+    }
+
+    // Get the minutes.
+    minutes = minplayer.urlVars.seek.match(/([0-9])m/i);
+    if (minutes) {
+      seconds += (parseInt(minutes[1], 10) * 60);
+    }
+
+    // Get the hours.
+    hours = minplayer.urlVars.seek.match(/([0-9])h/i);
+    if (hours) {
+      seconds += (parseInt(hours[1], 10) * 3600);
+    }
+
+    // If no seconds were found, then just use the raw value.
+    if (!seconds) {
+      seconds = minplayer.urlVars.seek;
+    }
+  }
+
+  return seconds;
+};
+
+/**
  * Should be called when the media is playing.
  */
 minplayer.players.base.prototype.onPlaying = function() {
@@ -356,6 +400,10 @@ minplayer.players.base.prototype.onPaused = function() {
  * Should be called when the media is complete.
  */
 minplayer.players.base.prototype.onComplete = function() {
+  if (this.playing) {
+    this.onPaused();
+  }
+
   // Stop the intervals.
   this.playing = false;
   this.loading = false;
@@ -374,6 +422,18 @@ minplayer.players.base.prototype.onLoaded = function() {
   }
 
   this.trigger('loadeddata');
+
+  // See if they would like to seek.
+  var seek = this.getSeek();
+  if (seek) {
+    this.getDuration((function(player) {
+      return function(duration) {
+        if (seek < duration) {
+          player.seek(seek);
+        }
+      };
+    })(this));
+  }
 };
 
 /**
@@ -406,9 +466,10 @@ minplayer.players.base.prototype.isReady = function() {
 /**
  * Determines if the player should show the playloader.
  *
+ * @param {string} preview The preview image.
  * @return {bool} If this player implements its own playLoader.
  */
-minplayer.players.base.prototype.hasPlayLoader = function() {
+minplayer.players.base.prototype.hasPlayLoader = function(preview) {
   return false;
 };
 
