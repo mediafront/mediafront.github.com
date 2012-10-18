@@ -8,19 +8,21 @@ osmplayer:
   $(function() {
     $("#youtube").osmplayer({
       width: '100%',
-      height: '600px'
+      height: '600px',
+      playlist: 'http://gdata.youtube.com/feeds/api/videos'
     });
   });
 </script>
-<video id="youtube" src="http://www.youtube.com/watch?v=dTAAsCNK7RA"></video>
+<video id="youtube"></video>
 {% endhighlight %}
 <script type="text/javascript">
   $(function() {
     $("#youtube").osmplayer({
-      logo: '/assets/osmplayer/logo.png',
       width: '100%',
-      height: '600px'
+      height: '600px',
+      playlist: 'http://gdata.youtube.com/feeds/api/videos',
+      logo: '/assets/osmplayer/logo.png'
     });
   });
 </script>
-<video id="youtube" src="http://www.youtube.com/watch?v=dTAAsCNK7RA"></video>
+<video id="youtube"></video>
