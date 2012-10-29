@@ -101,6 +101,7 @@ minplayer.controller.prototype.construct = function() {
 
     // Create the volume bar slider control.
     this.volumeBar = this.elements.volume.slider({
+      animate: true,
       range: 'min',
       orientation: 'vertical'
     });
@@ -137,7 +138,7 @@ minplayer.controller.prototype.construct = function() {
         })(this));
 
         // Bind to the pause event of the media.
-        media.bind('pause', (function(controller) {
+        media.ubind(this.uuid + ':pause', (function(controller) {
           return function(event) {
             controller.setPlayPause(true);
           };
@@ -156,7 +157,7 @@ minplayer.controller.prototype.construct = function() {
         })(this));
 
         // Bind to the play event of the media.
-        media.bind('playing', (function(controller) {
+        media.ubind(this.uuid + ':playing', (function(controller) {
           return function(event) {
             controller.setPlayPause(false);
           };
@@ -167,7 +168,7 @@ minplayer.controller.prototype.construct = function() {
       if (this.elements.duration) {
 
         // Bind to the duration change event.
-        media.bind('durationchange', (function(controller) {
+        media.ubind(this.uuid + ':durationchange', (function(controller) {
           return function(event, data) {
             controller.setTimeString('duration', data.duration);
           };
@@ -185,7 +186,7 @@ minplayer.controller.prototype.construct = function() {
       if (this.elements.progress) {
 
         // Bind to the progress event.
-        media.bind('progress', (function(controller) {
+        media.ubind(this.uuid + ':progress', (function(controller) {
           return function(event, data) {
             var percent = data.total ? (data.loaded / data.total) * 100 : 0;
             controller.elements.progress.width(percent + '%');
@@ -197,7 +198,7 @@ minplayer.controller.prototype.construct = function() {
       if (this.seekBar || this.elements.timer) {
 
         // Bind to the time update event.
-        media.bind('timeupdate', (function(controller) {
+        media.ubind(this.uuid + ':timeupdate', (function(controller) {
           return function(event, data) {
             if (!controller.dragging) {
               var value = 0;
@@ -207,7 +208,7 @@ minplayer.controller.prototype.construct = function() {
 
               // Update the seek bar if it exists.
               if (controller.seekBar) {
-                controller.seekBar.slider('option', 'value', value);
+                controller.seekBar.slider('value', value);
               }
 
               controller.setTimeString('timer', data.currentTime);
@@ -256,11 +257,11 @@ minplayer.controller.prototype.construct = function() {
             var value = controller.volumeBar.slider('option', 'value');
             if (value > 0) {
               controller.vol = value;
-              controller.volumeBar.slider('option', 'value', 0);
+              controller.volumeBar.slider('value', 0);
               media.setVolume(0);
             }
             else {
-              controller.volumeBar.slider('option', 'value', controller.vol);
+              controller.volumeBar.slider('value', controller.vol);
               media.setVolume(controller.vol / 100);
             }
           };
@@ -277,16 +278,16 @@ minplayer.controller.prototype.construct = function() {
           }
         });
 
-        media.bind('volumeupdate', (function(controller) {
+        media.ubind(this.uuid + ':volumeupdate', (function(controller) {
           return function(event, vol) {
-            controller.volumeBar.slider('option', 'value', (vol * 100));
+            controller.volumeBar.slider('value', (vol * 100));
           };
         })(this));
 
         // Set the volume to match that of the player.
         media.getVolume((function(controller) {
           return function(vol) {
-            controller.volumeBar.slider('option', 'value', (vol * 100));
+            controller.volumeBar.slider('value', (vol * 100));
           };
         })(this));
       }

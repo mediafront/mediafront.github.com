@@ -83,7 +83,7 @@ minplayer.players.base.prototype.construct = function() {
   this.mediaFile = this.options.file;
 
   // Make sure we always autoplay on streams.
-  this.options.autoplay = this.options.autoplay || this.mediaFile.stream;
+  this.options.autoplay = this.options.autoplay || !!this.mediaFile.stream;
 
   // Clear the media player.
   this.clear();
@@ -143,6 +143,11 @@ minplayer.players.base.prototype.construct = function() {
       }
     };
   })(this));
+
+  // Make sure that we trigger onReady if autoload is false.
+  if (!this.options.autoload) {
+    this.onReady();
+  }
 };
 
 /**
@@ -244,7 +249,7 @@ minplayer.players.base.prototype.onReady = function() {
   this.loading = true;
 
   // Create a poll to get the progress.
-  this.poll((function(player) {
+  this.poll('progress', (function(player) {
     return function() {
 
       // Only do this if the play interval is set.
@@ -346,7 +351,7 @@ minplayer.players.base.prototype.onPlaying = function() {
   this.playing = true;
 
   // Create a poll to get the timeupate.
-  this.poll((function(player) {
+  this.poll('timeupdate', (function(player) {
     return function() {
 
       // Only do this if the play interval is set.
@@ -378,7 +383,7 @@ minplayer.players.base.prototype.onPlaying = function() {
       // Keep polling as long as it is playing.
       return player.playing;
     };
-  })(this), 1000);
+  })(this), 500);
 };
 
 /**
@@ -430,6 +435,7 @@ minplayer.players.base.prototype.onLoaded = function() {
       return function(duration) {
         if (seek < duration) {
           player.seek(seek);
+          player.play();
         }
       };
     })(this));
@@ -535,6 +541,8 @@ minplayer.players.base.prototype.load = function(file) {
  * @return {boolean} If this action was performed.
  */
 minplayer.players.base.prototype.play = function() {
+  this.options.autoload = true;
+  this.options.autoplay = true;
   return this.isReady();
 };
 
