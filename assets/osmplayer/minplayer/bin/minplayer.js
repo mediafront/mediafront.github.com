@@ -581,17 +581,22 @@ minplayer.plugin.prototype.isEvent = function(name, type) {
  *
  * @param {string} type The event type.
  * @param {object} data The event data object.
+ * @param {boolean} noqueue If this trigger should not be queued.
  * @return {object} The plugin object.
  */
-minplayer.plugin.prototype.trigger = function(type, data) {
+minplayer.plugin.prototype.trigger = function(type, data, noqueue) {
 
   // Don't trigger if this plugin is inactive.
   if (!this.active) {
     return this;
   }
 
-  // Add this to our triggered array.
-  this.triggered[type] = data;
+  // Only queue if they wish it to be so...
+  if (!noqueue) {
+
+    // Add this to our triggered array.
+    this.triggered[type] = data;
+  }
 
   // Iterate through the queue.
   var i = 0, queue = {}, queuetype = null;
@@ -1436,7 +1441,8 @@ minplayer.prototype.construct = function() {
     attributes: {},
     plugins: {},
     logo: '',
-    link: ''
+    link: '',
+    duration: 0
   }, this.options);
 
   // Call the minplayer display constructor.
@@ -2587,10 +2593,10 @@ minplayer.players.base.prototype.reset = function() {
   this.loading = false;
 
   // Tell everyone else we reset.
-  this.trigger('pause');
-  this.trigger('waiting');
-  this.trigger('progress', {loaded: 0, total: 0, start: 0});
-  this.trigger('timeupdate', {currentTime: 0, duration: 0});
+  this.trigger('pause', null, true);
+  this.trigger('waiting', null, true);
+  this.trigger('progress', {loaded: 0, total: 0, start: 0}, true);
+  this.trigger('timeupdate', {currentTime: 0, duration: 0}, true);
 };
 
 /**
@@ -3044,7 +3050,12 @@ minplayer.players.base.prototype.getCurrentTime = function(callback) {
  * @return {number} The duration of the loaded media.
  */
 minplayer.players.base.prototype.getDuration = function(callback) {
-  return this.duration.get(callback);
+  if (this.options.duration) {
+    callback(this.options.duration);
+  }
+  else {
+    return this.duration.get(callback);
+  }
 };
 
 /**
@@ -3436,9 +3447,14 @@ minplayer.players.html5.prototype.getVolume = function(callback) {
  */
 minplayer.players.html5.prototype.getDuration = function(callback) {
   if (this.isReady()) {
-    this.duration.get(callback);
-    if (this.player.duration) {
-      this.duration.set(this.player.duration);
+    if (this.options.duration) {
+      callback(this.options.duration);
+    }
+    else {
+      this.duration.get(callback);
+      if (this.player.duration) {
+        this.duration.set(this.player.duration);
+      }
     }
   }
 };
@@ -3907,24 +3923,28 @@ minplayer.players.minplayer.prototype.getVolume = function(callback) {
  */
 minplayer.players.minplayer.prototype.getDuration = function(callback) {
   if (this.isReady()) {
-
-    // Check to see if it is immediately available.
-    var duration = this.player.getDuration();
-    if (duration) {
-      callback(duration);
+    if (this.options.duration) {
+      callback(this.options.duration);
     }
     else {
+      // Check to see if it is immediately available.
+      var duration = this.player.getDuration();
+      if (duration) {
+        callback(duration);
+      }
+      else {
 
-      // If not, then poll every second for the duration.
-      this.poll('duration', (function(player) {
-        return function() {
-          duration = player.player.getDuration();
-          if (duration) {
-            callback(duration);
-          }
-          return !duration;
-        };
-      })(this), 1000);
+        // If not, then poll every second for the duration.
+        this.poll('duration', (function(player) {
+          return function() {
+            duration = player.player.getDuration();
+            if (duration) {
+              callback(duration);
+            }
+            return !duration;
+          };
+        })(this), 1000);
+      }
     }
   }
 };
@@ -4302,7 +4322,12 @@ minplayer.players.youtube.prototype.getVolume = function(callback) {
  * @see minplayer.players.base#getDuration.
  */
 minplayer.players.youtube.prototype.getDuration = function(callback) {
-  this.getValue('getDuration', callback);
+  if (this.options.duration) {
+    callback(this.options.duration);
+  }
+  else {
+    this.getValue('getDuration', callback);
+  }
 };
 
 /**
@@ -4670,7 +4695,10 @@ minplayer.players.vimeo.prototype.getVolume = function(callback) {
  */
 minplayer.players.vimeo.prototype.getDuration = function(callback) {
   if (this.isReady()) {
-    if (this.duration.value) {
+    if (this.options.duration) {
+      callback(this.options.duration);
+    }
+    else if (this.duration.value) {
       callback(this.duration.value);
     }
     else {
@@ -4753,6 +4781,11 @@ minplayer.controller.prototype.getElements = function() {
  * @see minplayer.plugin#construct
  */
 minplayer.controller.prototype.construct = function() {
+
+  // Make sure we provide default options...
+  this.options = jQuery.extend({
+    disptime: 0
+  }, this.options);
 
   // Call the minplayer plugin constructor.
   minplayer.display.prototype.construct.call(this);
@@ -4852,13 +4885,15 @@ minplayer.controller.prototype.construct = function() {
         // Bind to the duration change event.
         media.ubind(this.uuid + ':durationchange', (function(controller) {
           return function(event, data) {
-            controller.setTimeString('duration', data.duration);
+            var duration = controller.options.disptime || data.duration;
+            controller.setTimeString('duration', duration);
           };
         })(this));
 
         // Set the timestring to the duration.
         media.getDuration((function(controller) {
           return function(duration) {
+            duration = controller.options.disptime || duration;
             controller.setTimeString('duration', duration);
           };
         })(this));
