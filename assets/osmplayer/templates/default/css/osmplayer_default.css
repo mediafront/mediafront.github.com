@@ -72,6 +72,10 @@
   display:none !important;
 }
 
+.player-ui.nomedia .minplayer-default-controls, .player-ui.nomedia .minplayer-default-big-play, .player-ui.nomedia .minplayer-default-loader {
+  display:none;
+}
+
 .player-ui .minplayer-default-loader {
   width:42px;
   height:10px;
@@ -369,6 +373,13 @@
   opacity: 0;
 }
 
+.player-ui.controller-only .minplayer-controls-volume-horizontal .minplayer-default-volume-slider {
+  height: 7px;
+  width: 105px;
+  top: 8px;
+  left: 32px !important;
+}
+
 .player-ui .minplayer-controls-volume-horizontal .minplayer-default-volume-slider {
   height: 7px;
   width: 78px;
@@ -424,6 +435,10 @@
 
 .player-ui .minplayer-default-volume-unmute {
   display: none;
+}
+
+.player-ui.controller-only .minplayer-default-fullscreen {
+  display:none !important;
 }
 
 /* Fullscreen button */

@@ -163,13 +163,19 @@ osmplayer.prototype.loadNode = function(node) {
         };
       })(this));
     }
+    else {
+
+      // Add a class to the display to let themes handle this.
+      this.display.addClass('nomedia');
+    }
 
     // Load the preview image.
     osmplayer.getImage(node.mediafiles, 'preview', (function(player) {
       return function(image) {
         player.options.preview = image.path;
         if (player.playLoader) {
-          player.playLoader.initialize();
+          player.playLoader.enabled = true;
+          player.playLoader.loadPreview();
         }
       };
     })(this));
@@ -207,7 +213,7 @@ osmplayer.prototype.playNext = function() {
   else if (this.playQueue.length > 0) {
 
     // If we have a playlist, let them handle what to do next.
-    if (this.hasPlaylist) {
+    if (this.hasPlaylist && this.options.autoNext) {
       this.trigger('player_ended');
     }
     else {

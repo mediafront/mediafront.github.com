@@ -1699,6 +1699,7 @@ minplayer.getMediaFile = function(files) {
     if (files.hasOwnProperty(i)) {
       file = new minplayer.file(files[i]);
       if (file.player && (file.priority > bestPriority)) {
+        bestPriority = file.priority;
         mFile = file;
       }
     }
@@ -4925,7 +4926,7 @@ minplayer.controller.prototype.construct = function() {
 
               // Update the seek bar if it exists.
               if (controller.seekBar) {
-                controller.seekBar.slider('value', value);
+                controller.seekBar.slider('option', 'value', value);
               }
 
               controller.setTimeString('timer', data.currentTime);
@@ -4974,11 +4975,11 @@ minplayer.controller.prototype.construct = function() {
             var value = controller.volumeBar.slider('option', 'value');
             if (value > 0) {
               controller.vol = value;
-              controller.volumeBar.slider('value', 0);
+              controller.volumeBar.slider('option', 'value', 0);
               media.setVolume(0);
             }
             else {
-              controller.volumeBar.slider('value', controller.vol);
+              controller.volumeBar.slider('option', 'value', controller.vol);
               media.setVolume(controller.vol / 100);
             }
           };
@@ -4997,14 +4998,14 @@ minplayer.controller.prototype.construct = function() {
 
         media.ubind(this.uuid + ':volumeupdate', (function(controller) {
           return function(event, vol) {
-            controller.volumeBar.slider('value', (vol * 100));
+            controller.volumeBar.slider('option', 'value', (vol * 100));
           };
         })(this));
 
         // Set the volume to match that of the player.
         media.getVolume((function(controller) {
           return function(vol) {
-            controller.volumeBar.slider('value', (vol * 100));
+            controller.volumeBar.slider('option', 'value', (vol * 100));
           };
         })(this));
       }
