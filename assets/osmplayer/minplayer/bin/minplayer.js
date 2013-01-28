@@ -827,7 +827,7 @@ minplayer.bind = function(event, id, plugin, callback, fromCheck) {
   }
 
   // Add it to the queue for post bindings...
-  if ((selected.length == 0) && !fromCheck) {
+  if (!fromCheck) {
     minplayer.addQueue(this, event, id, plugin, callback);
   }
 
@@ -1117,6 +1117,10 @@ minplayer.display.prototype.showThenHide = function(element, timeout, cb) {
   else if (elementType === 'function') {
     cb = element;
     element = this.display;
+  }
+
+  if (!element) {
+    return;
   }
 
   // Make sure we have a timeout.
@@ -2222,11 +2226,20 @@ minplayer.playLoader.prototype.initialize = function() {
         this.options.preview = media.elements.media.attr('poster');
       }
 
-      // Reset the media's poster image.
-      media.elements.media.attr('poster', '');
+      // Determine if we should load the image.
+      var shouldLoad = true;
+      if (this.preview && this.preview.loader) {
+        shouldLoad = (this.preview.loader.src !== this.options.preview);
+      }
 
-      // Load the preview image.
-      this.loadPreview();
+      // Only load the image if it is different.
+      if (shouldLoad) {
+        // Reset the media's poster image.
+        media.elements.media.attr('poster', '');
+
+        // Load the preview image.
+        this.loadPreview();
+      }
 
       // Trigger a play event when someone clicks on the controller.
       if (this.elements.bigPlay) {

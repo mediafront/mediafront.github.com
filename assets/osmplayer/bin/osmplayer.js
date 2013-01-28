@@ -1931,7 +1931,7 @@ minplayer.bind = function(event, id, plugin, callback, fromCheck) {
   }
 
   // Add it to the queue for post bindings...
-  if ((selected.length == 0) && !fromCheck) {
+  if (!fromCheck) {
     minplayer.addQueue(this, event, id, plugin, callback);
   }
 
@@ -2221,6 +2221,10 @@ minplayer.display.prototype.showThenHide = function(element, timeout, cb) {
   else if (elementType === 'function') {
     cb = element;
     element = this.display;
+  }
+
+  if (!element) {
+    return;
   }
 
   // Make sure we have a timeout.
@@ -3326,11 +3330,20 @@ minplayer.playLoader.prototype.initialize = function() {
         this.options.preview = media.elements.media.attr('poster');
       }
 
-      // Reset the media's poster image.
-      media.elements.media.attr('poster', '');
+      // Determine if we should load the image.
+      var shouldLoad = true;
+      if (this.preview && this.preview.loader) {
+        shouldLoad = (this.preview.loader.src !== this.options.preview);
+      }
 
-      // Load the preview image.
-      this.loadPreview();
+      // Only load the image if it is different.
+      if (shouldLoad) {
+        // Reset the media's poster image.
+        media.elements.media.attr('poster', '');
+
+        // Load the preview image.
+        this.loadPreview();
+      }
 
       // Trigger a play event when someone clicks on the controller.
       if (this.elements.bigPlay) {
@@ -6171,6 +6184,15 @@ minplayer.controller.prototype.setTimeString = function(element, time) {
 // Add a way to instanciate using jQuery prototype.
 if (!jQuery.fn.osmplayer) {
 
+  /** A special jQuery event to handle the player being removed from DOM. */
+  jQuery.event.special.playerdestroyed = {
+    remove: function(o) {
+      if (o.handler) {
+        o.handler();
+      }
+    }
+  };
+
   /**
    * @constructor
    *
@@ -6191,6 +6213,19 @@ if (!jQuery.fn.osmplayer) {
         else {
           new osmplayer(jQuery(this), options);
         }
+
+        // We need to cleanup the player when it has been destroyed.
+        jQuery(this).bind('playerdestroyed', function() {
+          for (var plugin in minplayer.plugins[options.id]) {
+            for (var index in minplayer.plugins[options.id][plugin]) {
+              minplayer.plugins[options.id][plugin][index].destroy();
+              delete minplayer.plugins[options.id][plugin][index];
+            }
+            minplayer.plugins[options.id][plugin].length = 0;
+          }
+          delete minplayer.plugins[options.id];
+          minplayer.plugins[options.id] = null;
+        });
       }
     });
   };
