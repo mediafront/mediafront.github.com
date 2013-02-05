@@ -1,0 +1,13 @@
+---
+layout: page
+title: "Open Standard Media (OSM) Player Testing"
+tagline: "The following pages are used to test the functionality of the OSM Player in all browsers."
+---
+{% include JB/setup %}
+<ul>
+{% for node in site.pages %}
+  {% if node.group == 'test' %}
+  <li><a href="{{ BASE_PATH }}{{node.url}}">{{ node.title }}</a></li>
+  {% endif %}
+{% endfor %}
+</ul>
