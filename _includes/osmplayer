@@ -18,6 +18,7 @@
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.minplayer.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.youtube.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.vimeo.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.limelight.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.controller.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.default.js"></script>
