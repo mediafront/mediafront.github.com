@@ -352,6 +352,15 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/osmplayer.playlist.html#defaultOptions">defaultOptions</a></b>(options)
+								</div>
+								<div class="description">Returns the default options for this plugin.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/osmplayer.playlist.html#load">load</a></b>(page, loadIndex)
 								</div>
 								<div class="description">Loads a playlist.</div>
@@ -382,6 +391,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/osmplayer.playlist.html#nextPage">nextPage</a></b>(loadIndex)
 								</div>
 								<div class="description">Loads the next page.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/osmplayer.playlist.html#onAdded">onAdded</a></b>(plugin)
+								</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
@@ -445,7 +463,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/minplayer.display.html">minplayer.display</a>: </dt><dd><a href="../symbols/minplayer.display.html#fullscreen">fullscreen</a>, <a href="../symbols/minplayer.display.html#fullScreenElement">fullScreenElement</a>, <a href="../symbols/minplayer.display.html#getDisplay">getDisplay</a>, <a href="../symbols/minplayer.display.html#getElements">getElements</a>, <a href="../symbols/minplayer.display.html#getScaledRect">getScaledRect</a>, <a href="../symbols/minplayer.display.html#hide">hide</a>, <a href="../symbols/minplayer.display.html#isFullScreen">isFullScreen</a>, <a href="../symbols/minplayer.display.html#onFocus">onFocus</a>, <a href="../symbols/minplayer.display.html#showThenHide">showThenHide</a>, <a href="../symbols/minplayer.display.html#toggleFullScreen">toggleFullScreen</a></dd><dt>Methods borrowed from class <a href="../symbols/minplayer.plugin.html">minplayer.plugin</a>: </dt><dd><a href="../symbols/minplayer.plugin.html#addPlugin">addPlugin</a>, <a href="../symbols/minplayer.plugin.html#bind">bind</a>, <a href="../symbols/minplayer.plugin.html#checkQueue">checkQueue</a>, <a href="../symbols/minplayer.plugin.html#create">create</a>, <a href="../symbols/minplayer.plugin.html#destroy">destroy</a>, <a href="../symbols/minplayer.plugin.html#get">get</a>, <a href="../symbols/minplayer.plugin.html#isEvent">isEvent</a>, <a href="../symbols/minplayer.plugin.html#isValid">isValid</a>, <a href="../symbols/minplayer.plugin.html#poll">poll</a>, <a href="../symbols/minplayer.plugin.html#ready">ready</a>, <a href="../symbols/minplayer.plugin.html#trigger">trigger</a>, <a href="../symbols/minplayer.plugin.html#ubind">ubind</a>, <a href="../symbols/minplayer.plugin.html#unbind">unbind</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/minplayer.display.html">minplayer.display</a>: </dt><dd><a href="../symbols/minplayer.display.html#fullscreen">fullscreen</a>, <a href="../symbols/minplayer.display.html#fullScreenElement">fullScreenElement</a>, <a href="../symbols/minplayer.display.html#getDisplay">getDisplay</a>, <a href="../symbols/minplayer.display.html#getElements">getElements</a>, <a href="../symbols/minplayer.display.html#getScaledRect">getScaledRect</a>, <a href="../symbols/minplayer.display.html#hide">hide</a>, <a href="../symbols/minplayer.display.html#initialize">initialize</a>, <a href="../symbols/minplayer.display.html#isFullScreen">isFullScreen</a>, <a href="../symbols/minplayer.display.html#onFocus">onFocus</a>, <a href="../symbols/minplayer.display.html#showThenHide">showThenHide</a>, <a href="../symbols/minplayer.display.html#toggleFullScreen">toggleFullScreen</a></dd><dt>Methods borrowed from class <a href="../symbols/minplayer.plugin.html">minplayer.plugin</a>: </dt><dd><a href="../symbols/minplayer.plugin.html#addPlugin">addPlugin</a>, <a href="../symbols/minplayer.plugin.html#bind">bind</a>, <a href="../symbols/minplayer.plugin.html#checkQueue">checkQueue</a>, <a href="../symbols/minplayer.plugin.html#create">create</a>, <a href="../symbols/minplayer.plugin.html#destroy">destroy</a>, <a href="../symbols/minplayer.plugin.html#get">get</a>, <a href="../symbols/minplayer.plugin.html#isEvent">isEvent</a>, <a href="../symbols/minplayer.plugin.html#isValid">isValid</a>, <a href="../symbols/minplayer.plugin.html#poll">poll</a>, <a href="../symbols/minplayer.plugin.html#ready">ready</a>, <a href="../symbols/minplayer.plugin.html#trigger">trigger</a>, <a href="../symbols/minplayer.plugin.html#ubind">ubind</a>, <a href="../symbols/minplayer.plugin.html#unbind">unbind</a></dd>
 				</dl>
 				
 			
@@ -585,6 +603,42 @@ ul.inheritsList
 								<dd><a href="../symbols/minplayer.plugin.html#construct">minplayer.plugin#construct</a></dd>
 							
 							</dl>
+						
+
+					<hr />
+				
+					<a name="defaultOptions"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>defaultOptions</b>(options)
+					
+					</div>
+					<div class="description">
+						Returns the default options for this plugin.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>options</b>
+									
+								</dt>
+								<dd>The default options for this plugin.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
 						
 
 					<hr />
@@ -752,6 +806,49 @@ ul.inheritsList
 							</dl>
 						
 						
+						
+
+					<hr />
+				
+					<a name="onAdded"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>onAdded</b>(plugin)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>plugin</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>minplayer.plugin.onAdded</dd>
+							
+							</dl>
 						
 
 					<hr />
@@ -977,7 +1074,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Feb 07 2013 22:28:16 GMT-0600 (CST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Feb 25 2013 20:38:53 GMT-0600 (CST)
 		</div>
 	</body>
 </html>

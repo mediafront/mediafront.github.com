@@ -21,14 +21,14 @@ minplayer.lock = false;
  */
 minplayer.plugin = function(name, context, options, queue) {
 
+  // Make sure we have some options.
+  options = options || {};
+
   /** The name of this plugin. */
   this.name = name;
 
   /** The ready flag. */
   this.pluginReady = false;
-
-  /** The options for this plugin. */
-  this.options = options || {};
 
   /** The event queue. */
   this.queue = queue || {};
@@ -45,15 +45,38 @@ minplayer.plugin = function(name, context, options, queue) {
   // Only call the constructor if we have a context.
   if (context) {
 
-    /** Say that we are active. */
-    this.active = true;
-
     /** Keep track of the context. */
     this.context = jQuery(context);
 
-    // Construct this plugin.
-    this.construct();
+    // Initialize the default options.
+    var defaults = {};
+
+    // Get the default options.
+    this.defaultOptions(defaults);
+
+    /** The options for this plugin. */
+    this.options = jQuery.extend(defaults, options);
+
+    // Initialize this plugin.
+    this.initialize();
   }
+};
+
+/**
+ * Initialize function for the plugin.
+ */
+minplayer.plugin.prototype.initialize = function() {
+
+  // Construct this plugin.
+  this.construct();
+};
+
+/**
+ * Get the default options for this plugin.
+ *
+ * @param {object} options The default options for this plugin.
+ */
+minplayer.plugin.prototype.defaultOptions = function(options) {
 };
 
 /**
@@ -64,6 +87,9 @@ minplayer.plugin = function(name, context, options, queue) {
  * as object creation.
  */
 minplayer.plugin.prototype.construct = function() {
+
+  /** Say that we are active. */
+  this.active = true;
 
   // Adds this as a plugin.
   this.addPlugin();
@@ -154,6 +180,14 @@ minplayer.plugin.prototype.isValid = function() {
 };
 
 /**
+ * Allows a plugin to do something when it is added to another plugin.
+ *
+ * @param {object} plugin The plugin that this plugin was added to.
+ */
+minplayer.plugin.prototype.onAdded = function(plugin) {
+};
+
+/**
  * Adds a new plugin to this player.
  *
  * @param {string} name The name of this plugin.
@@ -187,6 +221,9 @@ minplayer.plugin.prototype.addPlugin = function(name, plugin) {
 
     // Now check the queue for this plugin.
     this.checkQueue(plugin);
+
+    // Now let the plugin do something with this plugin.
+    plugin.onAdded(this);
   }
 };
 
@@ -242,7 +279,7 @@ minplayer.plugin.prototype.get = function(plugin, callback) {
 minplayer.plugin.prototype.checkQueue = function(plugin) {
 
   // Initialize our variables.
-  var q = null, i = 0, check = false, newqueue = [];
+  var q = null, i = 0, check = false;
 
   // Normalize the plugin variable.
   plugin = plugin || this;
@@ -254,6 +291,7 @@ minplayer.plugin.prototype.checkQueue = function(plugin) {
   var length = minplayer.queue.length;
   for (i = 0; i < length; i++) {
     if (minplayer.queue.hasOwnProperty(i)) {
+
       // Get the queue.
       q = minplayer.queue[i];
 
@@ -262,8 +300,9 @@ minplayer.plugin.prototype.checkQueue = function(plugin) {
       check |= (q.plugin == plugin.name);
       check &= (!q.id || (q.id == this.options.id));
 
-      // If the check passes...
-      if (check) {
+      // If the check passes, and hasn't already been added...
+      if (check && !q.addedto.hasOwnProperty(plugin.options.id)) {
+        q.addedto[plugin.options.id] = true;
         check = minplayer.bind.call(
           q.context,
           q.event,
@@ -273,18 +312,8 @@ minplayer.plugin.prototype.checkQueue = function(plugin) {
           true
         );
       }
-
-      // Add the queue back if it doesn't check out.
-      if (!check) {
-
-        // Add this back to the queue.
-        newqueue.push(q);
-      }
     }
   }
-
-  // Set the old queue to the new queue.
-  minplayer.queue = newqueue;
 
   // Release the lock.
   minplayer.lock = false;
@@ -480,7 +509,8 @@ minplayer.addQueue = function(context, event, id, plugin, callback) {
       id: id,
       event: event,
       plugin: plugin,
-      callback: callback
+      callback: callback,
+      addedto: {}
     });
   }
   else {

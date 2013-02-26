@@ -22,25 +22,27 @@ osmplayer.playlist.prototype = new minplayer.display();
 osmplayer.playlist.prototype.constructor = osmplayer.playlist;
 
 /**
+ * Returns the default options for this plugin.
+ *
+ * @param {object} options The default options for this plugin.
+ */
+osmplayer.playlist.prototype.defaultOptions = function(options) {
+  options.vertical = true;
+  options.playlist = '';
+  options.pageLimit = 10;
+  options.autoNext = true;
+  options.shuffle = false;
+  options.loop = false;
+  options.hysteresis = 40;
+  options.scrollSpeed = 20;
+  options.scrollMode = 'auto';
+  minplayer.display.prototype.defaultOptions.call(this, options);
+};
+
+/**
  * @see minplayer.plugin#construct
  */
 osmplayer.playlist.prototype.construct = function() {
-
-  // Make sure we provide default options...
-  this.options = jQuery.extend({
-    vertical: true,
-    playlist: '',
-    pageLimit: 10,
-    autoNext: true,
-    shuffle: false,
-    loop: false,
-    hysteresis: 40,
-    scrollSpeed: 20,
-    scrollMode: 'auto'
-  }, this.options);
-
-  // Call the minplayer plugin constructor.
-  minplayer.display.prototype.construct.call(this);
 
   /** The nodes within this playlist. */
   this.nodes = [];
@@ -90,24 +92,36 @@ osmplayer.playlist.prototype.construct = function() {
     };
   })(this));
 
-  // Load the "next" item.
-  if (this.next()) {
+  // Call the minplayer plugin constructor.
+  minplayer.display.prototype.construct.call(this);
 
-    // Get the media.
-    if (this.options.autoNext) {
-      this.get('player', function(player) {
-        player.ubind(this.uuid + ':player_ended', (function(playlist) {
-          return function(event) {
-            player.options.autoplay = true;
-            playlist.next();
-          };
-        })(this));
-      });
-    }
-  }
+  // Load the "next" item.
+  this.hasPlaylist = this.next();
 
   // Say that we are ready.
   this.ready();
+};
+
+/**
+ * @see minplayer.plugin.onAdded
+ */
+osmplayer.playlist.prototype.onAdded = function(plugin) {
+
+  // Get the media.
+  if (this.options.autoNext) {
+
+    // Get the player from this plugin.
+    plugin.get('player', (function(playlist) {
+      return function(player) {
+        player.ubind(playlist.uuid + ':player_ended', function(event) {
+          if (playlist.hasPlaylist) {
+            player.options.autoplay = true;
+            playlist.next();
+          }
+        });
+      };
+    })(this));
+  }
 };
 
 /**

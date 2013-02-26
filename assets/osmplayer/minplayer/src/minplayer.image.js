@@ -89,16 +89,18 @@ minplayer.image.prototype.load = function(src) {
 minplayer.image.prototype.clear = function(callback) {
   this.loaded = false;
   if (this.img) {
-    this.img.fadeOut((function(image) {
+    this.img.fadeOut(150, (function(image) {
       return function() {
         image.img.attr('src', '');
         image.loader.src = '';
         jQuery(this).remove();
-        callback.call(image);
+        if (callback) {
+          callback.call(image);
+        }
       };
     })(this));
   }
-  else {
+  else if (callback) {
     callback.call(this);
   }
 };
@@ -131,7 +133,7 @@ minplayer.image.prototype.resize = function(width, height) {
     }
 
     // Show the container.
-    this.img.fadeIn();
+    this.img.fadeIn(150);
   }
 };
 

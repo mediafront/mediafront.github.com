@@ -28,10 +28,41 @@ minplayer.display.prototype.constructor = minplayer.display;
 /**
  * Returns the display for this component.
  *
+ * @param {object} context The context which this display is within.
+ * @param {object} options The options to get the display.
+ *
  * @return {object} The jQuery context for this display.
  */
-minplayer.display.prototype.getDisplay = function() {
-  return this.context;
+minplayer.display.prototype.getDisplay = function(context, options) {
+
+  // Return the context.
+  return context;
+};
+
+/**
+ * @see minplayer.plugin.initialize
+ */
+minplayer.display.prototype.initialize = function() {
+
+  // Only set the display if it hasn't already been set.
+  if (!this.display) {
+
+    // Set the display.
+    this.display = this.getDisplay(this.context, this.options);
+  }
+
+  // Only continue loading this plugin if there is a display.
+  if (this.display) {
+
+    // Set the plugin name within the options.
+    this.options.pluginName = 'display';
+
+    // Get the display elements.
+    this.elements = this.getElements();
+
+    // Call the plugin initialize method.
+    minplayer.plugin.prototype.initialize.call(this);
+  }
 };
 
 /**
@@ -39,17 +70,8 @@ minplayer.display.prototype.getDisplay = function() {
  */
 minplayer.display.prototype.construct = function() {
 
-  // Set the display.
-  this.display = this.getDisplay(this.context, this.options);
-
   // Call the plugin constructor.
   minplayer.plugin.prototype.construct.call(this);
-
-  // Set the plugin name within the options.
-  this.options.pluginName = 'display';
-
-  // Get the display elements.
-  this.elements = this.getElements();
 
   // Set if this display is in autohide.
   this.autoHide = false;

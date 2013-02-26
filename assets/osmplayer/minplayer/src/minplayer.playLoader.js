@@ -13,20 +13,8 @@ var minplayer = minplayer || {};
  */
 minplayer.playLoader = function(context, options) {
 
-  // Define the flags that control the busy cursor.
-  this.busy = new minplayer.flags();
-
-  // Define the flags that control the big play button.
-  this.bigPlay = new minplayer.flags();
-
-  // Define the flags the control the preview.
-  this.previewFlag = new minplayer.flags();
-
-  /** The preview image. */
-  this.preview = null;
-
-  /** If the playLoader is enabled. */
-  this.enabled = true;
+  // Clear the variables.
+  this.clear();
 
   // Derive from display
   minplayer.display.call(this, 'playLoader', context, options);
@@ -50,7 +38,7 @@ minplayer.playLoader.prototype.construct = function() {
   this.options.pluginName = 'playLoader';
 
   // Get the media plugin.
-  this.initialize();
+  this.initializePlayLoader();
 
   // We are now ready.
   this.ready();
@@ -59,7 +47,7 @@ minplayer.playLoader.prototype.construct = function() {
 /**
  * Initialize the playLoader.
  */
-minplayer.playLoader.prototype.initialize = function() {
+minplayer.playLoader.prototype.initializePlayLoader = function() {
 
   // Get the media plugin.
   this.get('media', function(media) {
@@ -101,7 +89,7 @@ minplayer.playLoader.prototype.initialize = function() {
 
       // Bind to the player events to control the play loader.
       media.ubind(this.uuid + ':loadstart', (function(playLoader) {
-        return function(event) {
+        return function(event, data, reset) {
           playLoader.busy.setFlag('media', true);
           playLoader.bigPlay.setFlag('media', true);
           playLoader.previewFlag.setFlag('media', true);
@@ -109,31 +97,39 @@ minplayer.playLoader.prototype.initialize = function() {
         };
       })(this));
       media.ubind(this.uuid + ':waiting', (function(playLoader) {
-        return function(event) {
-          playLoader.busy.setFlag('media', true);
-          playLoader.checkVisibility();
+        return function(event, data, reset) {
+          if (!reset) {
+            playLoader.busy.setFlag('media', true);
+            playLoader.checkVisibility();
+          }
         };
       })(this));
       media.ubind(this.uuid + ':loadeddata', (function(playLoader) {
-        return function(event) {
-          playLoader.busy.setFlag('media', false);
-          playLoader.checkVisibility();
+        return function(event, data, reset) {
+          if (!reset) {
+            playLoader.busy.setFlag('media', false);
+            playLoader.checkVisibility();
+          }
         };
       })(this));
       media.ubind(this.uuid + ':playing', (function(playLoader) {
-        return function(event) {
-          playLoader.busy.setFlag('media', false);
-          playLoader.bigPlay.setFlag('media', false);
-          if (media.mediaFile.type !== 'audio') {
-            playLoader.previewFlag.setFlag('media', false);
+        return function(event, data, reset) {
+          if (!reset) {
+            playLoader.busy.setFlag('media', false);
+            playLoader.bigPlay.setFlag('media', false);
+            if (media.mediaFile.type !== 'audio') {
+              playLoader.previewFlag.setFlag('media', false);
+            }
+            playLoader.checkVisibility();
           }
-          playLoader.checkVisibility();
         };
       })(this));
       media.ubind(this.uuid + ':pause', (function(playLoader) {
-        return function(event) {
-          playLoader.bigPlay.setFlag('media', true);
-          playLoader.checkVisibility();
+        return function(event, data, reset) {
+          if (!reset) {
+            playLoader.bigPlay.setFlag('media', true);
+            playLoader.checkVisibility();
+          }
         };
       })(this));
     }
@@ -150,6 +146,53 @@ minplayer.playLoader.prototype.initialize = function() {
 };
 
 /**
+ * Clears the playloader.
+ *
+ * @param {function} callback Called when the playloader is finished clearing.
+ */
+minplayer.playLoader.prototype.clear = function(callback) {
+
+  // Define the flags that control the busy cursor.
+  this.busy = new minplayer.flags();
+
+  // Define the flags that control the big play button.
+  this.bigPlay = new minplayer.flags();
+
+  // Define the flags the control the preview.
+  this.previewFlag = new minplayer.flags();
+
+  /** If the playLoader is enabled. */
+  this.enabled = true;
+
+  // If the preview is defined, then clear the image.
+  if (this.preview) {
+
+    this.preview.clear((function(playLoader) {
+      return function() {
+
+        // Reset the preview.
+        playLoader.preview = null;
+
+        // If they wish to be called back after it is cleared.
+        if (callback) {
+          callback();
+        }
+      };
+    })(this));
+  }
+  else {
+
+    /** The preview image. */
+    this.preview = null;
+
+    // Return the callback.
+    if (callback) {
+      callback();
+    }
+  }
+};
+
+/**
  * Loads the preview image.
  *
  * @return {boolean} Returns true if an image was loaded, false otherwise.
@@ -157,7 +200,7 @@ minplayer.playLoader.prototype.initialize = function() {
 minplayer.playLoader.prototype.loadPreview = function() {
 
   // Ignore if disabled.
-  if (!this.enabled) {
+  if (!this.enabled || (this.display.length == 0)) {
     return;
   }
 

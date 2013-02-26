@@ -151,7 +151,7 @@ minplayer.players.html5.prototype.addPlayerEvents = function() {
 
     var errorSent = false;
     this.addPlayerEvent('error', function() {
-      if (!errorSent) {
+      if (!errorSent && this.player) {
         errorSent = true;
         this.trigger('error', 'An error occured - ' + this.player.error.code);
       }
@@ -208,8 +208,8 @@ minplayer.players.html5.prototype.playerFound = function() {
  * @see minplayer.players.base#create
  * @return {object} The media player entity.
  */
-minplayer.players.html5.prototype.create = function() {
-  minplayer.players.base.prototype.create.call(this);
+minplayer.players.html5.prototype.createPlayer = function() {
+  minplayer.players.base.prototype.createPlayer.call(this);
   var element = jQuery(document.createElement(this.mediaFile.type))
   .attr(this.options.attributes)
   .append(
