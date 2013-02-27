@@ -1,5 +1,5 @@
 /*!
- * iScroll v4.2.4 ~ Copyright (c) 2012 Matteo Spinelli, http://cubiq.org
+ * iScroll v4.2.5 ~ Copyright (c) 2012 Matteo Spinelli, http://cubiq.org
  * Released under MIT license, http://cubiq.org/license
  */
 (function(window, doc){
@@ -376,8 +376,8 @@ iScroll.prototype = {
 			if (that.options.useTransform) {
 				// Very lame general purpose alternative to CSSMatrix
 				matrix = getComputedStyle(that.scroller, null)[transform].replace(/[^0-9\-.,]/g, '').split(',');
-				x = +matrix[4];
-				y = +matrix[5];
+				x = +(matrix[12] || matrix[4]);
+				y = +(matrix[13] || matrix[5]);
 			} else {
 				x = +getComputedStyle(that.scroller, null).left.replace(/[^0-9-]/g, '');
 				y = +getComputedStyle(that.scroller, null).top.replace(/[^0-9-]/g, '');
@@ -7164,22 +7164,45 @@ osmplayer.parser.rss = {
   // Parse an RSS item.
   addRSSItem: function(playlist, item) {
     playlist.total_rows++;
-    playlist.nodes.push({
-      title: item.find('title').text(),
-      description: item.find('annotation').text(),
-      mediafiles: {
+    var node = {}, title = '', desc = '', img = '', media = '';
+
+    // Get the title.
+    title = item.find('title');
+    if (title.length) {
+      node.title = title.text();
+    }
+
+    // Get the description.
+    desc = item.find('annotation');
+    if (desc.length) {
+      node.description = desc.text();
+    }
+
+    // Add the media files.
+    node.mediafiles = {};
+
+    // Get the image.
+    img = item.find('image');
+    if (img.length) {
+      node.mediafiles.image = {
         image: {
-          'image': {
-            path: item.find('image').text()
-          }
-        },
-        media: {
-          'media': {
-            path: item.find('location').text()
-          }
+          path: img.text()
         }
-      }
-    });
+      };
+    }
+
+    // Get the media.
+    media = item.find('location');
+    if (media.length) {
+      node.mediafiles.media = {
+        media: {
+          path: media.text()
+        }
+      };
+    }
+
+    // Add this node to the playlist.
+    playlist.nodes.push(node);
   }
 };
 /** The osmplayer namespace. */
@@ -7554,7 +7577,8 @@ osmplayer.playlist.prototype.set = function(playlist, loadIndex) {
     this.currentItem = 0;
 
     // Show or hide the next page if there is or is not a next page.
-    if (((this.page + 1) * this.options.pageLimit) >= this.totalItems) {
+    if ((((this.page + 1) * this.options.pageLimit) >= this.totalItems) ||
+        (this.totalItems == playlist.nodes.length)) {
       this.pager.nextPage.hide();
     }
     else {
@@ -7936,7 +7960,7 @@ osmplayer.teaser.prototype.setNode = function(node) {
   }
 
   // Load the thumbnail image if it exists.
-  if (node.mediafiles && node.mediafiles.image) {
+  if (node.mediafiles) {
     osmplayer.getImage(node.mediafiles, 'thumbnail', (function(teaser) {
       return function(image) {
         if (image && teaser.elements.image) {
