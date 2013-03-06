@@ -1,0 +1,33 @@
+---
+layout: iframe
+osmplayer:
+  template: default
+---
+{% highlight html %}
+<script type="text/javascript">
+  $(function() {
+    $("video#rtmp").osmplayer({
+      width: '100%',
+      height: '600px',
+      file: {
+        stream: 'rtmp://184.72.239.149/vod',
+        path: 'bigbuckbunny_1500.mp4'
+      }
+    });
+  });
+</script>
+<video id="rtmp" poster="http://peach.blender.org/wp-content/uploads/poster_rodents_small.jpg"></video>
+{% endhighlight %}
+<script type="text/javascript">
+  $(function() {
+    $("video#rtmp").osmplayer({
+      width: '100%',
+      height: '600px',
+      file: {
+        stream: 'rtmp://184.72.239.149/vod',
+        path: 'bigbuckbunny_1500.mp4'
+      }
+    });
+  });
+</script>
+<video id="rtmp" poster="http://peach.blender.org/wp-content/uploads/poster_rodents_small.jpg"></video>
