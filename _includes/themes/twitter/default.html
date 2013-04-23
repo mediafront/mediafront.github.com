@@ -27,9 +27,9 @@
     <![endif]-->
 
     <!-- Include Google jQuery and jQuery UI -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/dark-hive/jquery-ui.css">
 
     <!-- Adding the addthis javascript. -->
     {% if site.JB.sharing.provider and site.JB.sharing.addthis.pubid != '' and page.JB.sharing != false %}
@@ -40,7 +40,6 @@
     {% endif %}
 
     <!-- The stylesheet for the player -->
-    <link rel="stylesheet" href="/assets/osmplayer/jquery-ui/dark-hive/jquery-ui-1.8.18.custom.css">
     {% if page.osmplayer %}
       <!-- Include osmplayer scripts and templates -->
       {% include osmplayer %}
