@@ -2,20 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b99c77e1-a3a8-4bfa-8afb-16427295ff89" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/osmplayer/kaltura.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/_global_.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/_global_.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/_global_.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/_global_.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/files.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/files.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/files.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/files.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/index.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/index.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/index.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/osmplayer/index.html" afterPath="$PROJECT_DIR$/osmplayer/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/jQuery.fn.minplayer.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/jQuery.fn.minplayer.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/jQuery.fn.minplayer.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/jQuery.fn.minplayer.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/jQuery.fn.osmplayer.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/jQuery.fn.osmplayer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/makefile" afterPath="$PROJECT_DIR$/assets/osmplayer/makefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/makefile" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/osmplayer/examples/mediarange.html" afterPath="$PROJECT_DIR$/osmplayer/examples/mediarange.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.async.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.async.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.async.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.async.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.compatibility.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.compatibility.html" />
@@ -30,37 +26,52 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.image.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.image.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.image.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.image.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/bin/minplayer.js" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/bin/minplayer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.playLoader.js" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.playLoader.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.base.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.base.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.base.js" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.base.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.dailymotion.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.dailymotion.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.dailymotion.js" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.dailymotion.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.flash.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.flash.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.flash.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.flash.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.html5.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.html5.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.html5.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.html5.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.html5.js" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.html5.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.kaltura.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.kaltura.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.kaltura.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.kaltura.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.limelight.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.limelight.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.limelight.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.limelight.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.limelight.js" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.limelight.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.minplayer.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.minplayer.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.minplayer.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.minplayer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.minplayer.js" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.minplayer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.vimeo.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.vimeo.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.vimeo.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.vimeo.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.vimeo.js" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.vimeo.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.youtube.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.players.youtube.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.youtube.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.players.youtube.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.youtube.js" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.youtube.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.plugin.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/minplayer.plugin.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.plugin.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/minplayer.plugin.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.playLoader.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.playLoader.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.base.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.base.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.html5.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.html5.js.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.limelight.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.limelight.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.minplayer.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.minplayer.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.vimeo.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.vimeo.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.youtube.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/src/minplayer_src_minplayer.players.youtube.js.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/bin/osmplayer.compressed.js" afterPath="$PROJECT_DIR$/assets/osmplayer/bin/osmplayer.compressed.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/templates/default/osmplayer.default.js" afterPath="$PROJECT_DIR$/assets/osmplayer/templates/default/osmplayer.default.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/osmplayer.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/osmplayer.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/bin/osmplayer.js" afterPath="$PROJECT_DIR$/assets/osmplayer/bin/osmplayer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/osmplayer.pager.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/osmplayer.pager.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/osmplayer.playlist.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/osmplayer.playlist.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/osmplayer.teaser.html" afterPath="$PROJECT_DIR$/assets/osmplayer/doc/symbols/osmplayer.teaser.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_includes/osmplayer" afterPath="$PROJECT_DIR$/_includes/osmplayer" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.playLoader.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.playLoader.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.base.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.base.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.dailymotion.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.dailymotion.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.html5.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.html5.js.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.limelight.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.limelight.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.minplayer.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.minplayer.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.vimeo.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.vimeo.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.youtube.js.html" afterPath="$PROJECT_DIR$/assets/osmplayer/minplayer/doc/symbols/src/src_minplayer.players.youtube.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mediafront.github.com.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,28 +94,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="osmplayer.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/osmplayer/src/osmplayer.js">
+      <file leaf-file-name="minplayer.players.html5.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.html5.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="3510" max-vertical-offset="5880">
+            <state line="369" column="36" selection-start="9529" selection-end="9529" vertical-scroll-proportion="0.0" vertical-offset="5542" max-vertical-offset="6495">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="simple.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/osmplayer/simple.html">
+      <file leaf-file-name="minplayer.players.base.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.base.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="39" selection-start="581" selection-end="581" vertical-scroll-proportion="-15.0" vertical-offset="0" max-vertical-offset="450">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mediarange.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/osmplayer/examples/mediarange.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="13" selection-start="544" selection-end="544" vertical-scroll-proportion="0.42600897" vertical-offset="0" max-vertical-offset="669">
+            <state line="891" column="2" selection-start="21258" selection-end="21258" vertical-scroll-proportion="11.744514" vertical-offset="5872" max-vertical-offset="13920">
               <folding />
             </state>
           </provider>
@@ -113,16 +115,70 @@
       <file leaf-file-name="playlist.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/osmplayer/playlist.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="16" selection-start="1532" selection-end="1593" vertical-scroll-proportion="-13.125" vertical-offset="495" max-vertical-offset="1530">
+            <state line="59" column="16" selection-start="1794" selection-end="1855" vertical-scroll-proportion="-16.25" vertical-offset="495" max-vertical-offset="1530">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/osmplayer/index.html">
+      <file leaf-file-name="minplayer.players.youtube.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.youtube.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="0" selection-start="3074" selection-end="3092" vertical-scroll-proportion="-9.75" vertical-offset="471" max-vertical-offset="1140">
+            <state line="406" column="41" selection-start="10831" selection-end="10831" vertical-scroll-proportion="0.0" vertical-offset="5852" max-vertical-offset="6525">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="minplayer.players.vimeo.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.vimeo.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="389" column="32" selection-start="9959" selection-end="9960" vertical-scroll-proportion="0.0" vertical-offset="5674" max-vertical-offset="6030">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="minplayer.players.dailymotion.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.dailymotion.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="372" column="32" selection-start="9940" selection-end="9940" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="5745">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="minplayer.players.flash.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.flash.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="34" selection-start="1175" selection-end="1178" vertical-scroll-proportion="0.0" vertical-offset="1534" max-vertical-offset="1890">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="minplayer.players.limelight.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.limelight.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="310" column="32" selection-start="7839" selection-end="7840" vertical-scroll-proportion="0.0" vertical-offset="4532" max-vertical-offset="4980">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="minplayer.players.minplayer.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.minplayer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="251" column="36" selection-start="6309" selection-end="6309" vertical-scroll-proportion="0.0" vertical-offset="4013" max-vertical-offset="4620">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="minplayer.players.kaltura.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.kaltura.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="140" column="35" selection-start="3248" selection-end="3248" vertical-scroll-proportion="0.0" vertical-offset="2554" max-vertical-offset="4860">
               <folding />
             </state>
           </provider>
@@ -147,14 +203,47 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/osmplayer/examples/mediarange.html" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.controller.js" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.kaltura.js" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.async.js" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.dailymotion.js" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.html5.js" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.limelight.js" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.minplayer.js" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.vimeo.js" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.youtube.js" />
+        <option value="$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.base.js" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
+    <option name="x" value="303" />
+    <option name="y" value="1102" />
     <option name="width" value="1440" />
-    <option name="height" value="829" />
+    <option name="height" value="832" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>GeneralJavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>JSValidateTypes</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -247,46 +336,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mediafront.github.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mediafront.github.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="osmplayer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mediafront.github.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mediafront.github.com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="osmplayer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="minplayer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -295,13 +344,20 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PublishConfig" serverName="mediafront.org" serverId="5c4d126c-91b3-4c84-a6cb-588363be2c25">
     <servers>
       <server id="2e3a9a93-aeab-44ae-a916-7de545bb1dca">
+        <serverdata />
+      </server>
+      <server id="2e598752-27ec-44c3-bf2e-c096beb68808">
+        <serverdata />
+      </server>
+      <server id="45a96ffd-ce0d-4d01-a66d-0b8f2e093979">
         <serverdata />
       </server>
       <server id="5c4d126c-91b3-4c84-a6cb-588363be2c25">
@@ -312,6 +368,15 @@
         </serverdata>
       </server>
       <server id="666de6e7-4453-4faf-961a-54a15b96f19d">
+        <serverdata />
+      </server>
+      <server id="94fc39a7-0d17-4635-a7df-57ebb667d77f">
+        <serverdata />
+      </server>
+      <server id="ce3aa48b-725a-4c58-b4e2-c4f5f0759209">
+        <serverdata />
+      </server>
+      <server id="cf4c3352-642a-4d3a-a25e-78cb7bb93082">
         <serverdata />
       </server>
     </servers>
@@ -327,7 +392,7 @@
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="5c4d126c-91b3-4c84-a6cb-588363be2c25" server_name="mediafront.org">
       <method />
     </configuration>
     <list size="0" />
@@ -342,28 +407,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="829" extended-state="6" />
+    <frame x="303" y="1102" width="1440" height="832" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24305555" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25753227" sideWeight="0.6825613" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3174387" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -378,44 +443,106 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/assets/osmplayer/src/osmplayer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="3510" max-vertical-offset="5880">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/osmplayer/developer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="4" selection-end="126" vertical-scroll-proportion="0.021994134" vertical-offset="0" max-vertical-offset="682">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/osmplayer/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="0" selection-start="3074" selection-end="3092" vertical-scroll-proportion="-9.75" vertical-offset="471" max-vertical-offset="1140">
+        <state line="47" column="0" selection-start="3074" selection-end="3092" vertical-scroll-proportion="-9.75" vertical-offset="471" max-vertical-offset="1140" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/osmplayer/simple.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="39" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="450" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7125" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/osmplayer/examples/mediarange.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="17" selection-start="551" selection-end="551" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="435">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="188" column="25" selection-start="5311" selection-end="5322" vertical-scroll-proportion="0.0" vertical-offset="2400" max-vertical-offset="5490" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.async.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="27" selection-start="223" selection-end="223" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="1005">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.flash.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="34" selection-start="1175" selection-end="1178" vertical-scroll-proportion="0.0" vertical-offset="1534" max-vertical-offset="1890">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.kaltura.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="140" column="35" selection-start="3248" selection-end="3248" vertical-scroll-proportion="0.0" vertical-offset="2554" max-vertical-offset="4860">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.limelight.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="310" column="32" selection-start="7839" selection-end="7840" vertical-scroll-proportion="0.0" vertical-offset="4532" max-vertical-offset="4980">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.minplayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="251" column="36" selection-start="6309" selection-end="6309" vertical-scroll-proportion="0.0" vertical-offset="4013" max-vertical-offset="4620">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.vimeo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="389" column="32" selection-start="9959" selection-end="9960" vertical-scroll-proportion="0.0" vertical-offset="5674" max-vertical-offset="6030">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.dailymotion.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="372" column="32" selection-start="9940" selection-end="9940" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="5745">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.youtube.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="406" column="41" selection-start="10831" selection-end="10831" vertical-scroll-proportion="0.0" vertical-offset="5852" max-vertical-offset="6525">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.html5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="369" column="36" selection-start="9529" selection-end="9529" vertical-scroll-proportion="0.0" vertical-offset="5542" max-vertical-offset="6495">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/osmplayer/playlist.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="16" selection-start="1532" selection-end="1593" vertical-scroll-proportion="-13.125" vertical-offset="495" max-vertical-offset="1530">
+        <state line="59" column="16" selection-start="1794" selection-end="1855" vertical-scroll-proportion="-16.25" vertical-offset="495" max-vertical-offset="1530">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/osmplayer/simple.html">
+    <entry file="file://$PROJECT_DIR$/assets/osmplayer/minplayer/src/minplayer.players.base.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="39" selection-start="581" selection-end="581" vertical-scroll-proportion="-15.0" vertical-offset="0" max-vertical-offset="450">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/osmplayer/examples/mediarange.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="13" selection-start="544" selection-end="544" vertical-scroll-proportion="0.42600897" vertical-offset="0" max-vertical-offset="669">
+        <state line="891" column="2" selection-start="21258" selection-end="21258" vertical-scroll-proportion="11.744514" vertical-offset="5872" max-vertical-offset="13920">
           <folding />
         </state>
       </provider>
