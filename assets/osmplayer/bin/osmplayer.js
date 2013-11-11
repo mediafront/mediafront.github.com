@@ -3870,6 +3870,9 @@ minplayer.players.base.prototype.onReady = function() {
     return;
   }
 
+  // Set the start and stop of the player.
+  this.setStartStop();
+
   // Set the ready flag.
   this.playerReady = true;
 
@@ -4040,6 +4043,19 @@ minplayer.players.base.prototype.setStartStop = function() {
  */
 minplayer.players.base.prototype.onPlaying = function() {
 
+  // See if we need to autoseek.
+  if (!this.playing) {
+    var self = this;
+    this.getDuration(function(duration) {
+      if (self.startTime && (self.startTime < duration)) {
+        self.seek(self.startTime, null, true);
+        if (self.options.autoplay) {
+          self.play();
+        }
+      }
+    });
+  }
+
   // Trigger an event that we are playing.
   this.trigger('playing');
 
@@ -4134,20 +4150,6 @@ minplayer.players.base.prototype.onLoaded = function() {
 
   // Trigger this event.
   this.trigger('loadeddata');
-
-  // See if they would like to seek.
-  if (!isLoaded) {
-    this.getDuration((function(player) {
-      return function(duration) {
-        if (player.startTime && (player.startTime < duration)) {
-          player.seek(player.startTime, null, true);
-          if (player.options.autoplay) {
-            player.play();
-          }
-        }
-      };
-    })(this));
-  }
 };
 
 /**
@@ -4266,6 +4268,11 @@ minplayer.players.base.prototype.load = function(file, callback) {
     if (callback) {
       callback.call(this);
     }
+  }
+
+  // We still want to play the song if it isn't playing but has autoplay enabled.
+  else if (this.options.autoplay && !this.playing) {
+    this.play();
   }
 };
 
@@ -4441,7 +4448,7 @@ minplayer.players.base.prototype.getCurrentTime = function(callback) {
         self.onComplete();
       });
     }
-    currentTime -= self.startTime;
+    currentTime -= self.offsetTime;
     callback(currentTime);
   });
 };
@@ -7327,6 +7334,9 @@ osmplayer.prototype.construct = function() {
     playlist.ubind(this.uuid + ':nodeLoad', (function(player) {
       return function(event, data) {
         player.hasPlaylist = true;
+        if (!player.options.autoplay && !!data.autoplay) {
+          player.options.autoplay = true;
+        }
         player.loadNode(data);
       };
     })(this));
@@ -8123,7 +8133,7 @@ osmplayer.playlist.prototype.addNode = function(node) {
   // Bind to when it loads.
   teaser.ubind(this.uuid + ':nodeLoad', (function(playlist) {
     return function(event, data) {
-      playlist.loadItem(index);
+      playlist.loadItem(index, true);
     };
   })(this));
 
@@ -8274,7 +8284,7 @@ osmplayer.playlist.prototype.prev = function() {
  * @param {number} index The index of the item you would like to load.
  * @return {boolean} TRUE if loaded, FALSE if not.
  */
-osmplayer.playlist.prototype.loadItem = function(index) {
+osmplayer.playlist.prototype.loadItem = function(index, autoplay) {
   if (index < this.nodes.length) {
     this.setQueue();
 
@@ -8286,6 +8296,7 @@ osmplayer.playlist.prototype.loadItem = function(index) {
     // Get the new teaser and select it.
     teaser = this.nodes[index];
     teaser.select(true);
+    teaser.node.autoplay = !!autoplay;
     this.trigger('nodeLoad', teaser.node);
     return true;
   }
