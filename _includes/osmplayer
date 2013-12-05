@@ -28,7 +28,6 @@
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.asx.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.xspf.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.playlist.js"></script>
-<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/iscroll/src/iscroll.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.pager.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.teaser.js"></script>
 {% endcapture %}
