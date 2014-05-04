@@ -3,6 +3,7 @@
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}bin/osmplayer.compressed.js"></script>
 {% endcapture %}
 {% capture OSMPLAYER_SCRIPTS_DEBUG %}
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.screenfull.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.compatibility.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.flags.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.async.js"></script>
@@ -22,6 +23,7 @@
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.players.kaltura.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}minplayer/src/minplayer.controller.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.js"></script>
+<script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.iscroll.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.default.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.youtube.js"></script>
 <script type="text/javascript" src="{{OSMPLAYER_PATH}}src/osmplayer.parser.rss.js"></script>
